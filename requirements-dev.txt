@@ -1,4 +1,0 @@
--r src/python/workshop/requirements.txt
-black
-ruff
-pre-commit
