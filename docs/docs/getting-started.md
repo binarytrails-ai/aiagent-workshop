@@ -1,11 +1,8 @@
 # Getting Started
 
-Select your workshop experience:
+Welcome to the lab! Ready to dive into AI-powered coding.
 
-=== "@Build Workshop"
+{% include-markdown "includes/setup-github-models.md" %}
 
-    {% include-markdown "includes/introduction-event.md" %}
 
-=== "Self-Guided Learners"
-
-    {% include-markdown "includes/introduction-self-guided.md" %}
+{% include-markdown "includes/introduction-self-guided.md" %}
