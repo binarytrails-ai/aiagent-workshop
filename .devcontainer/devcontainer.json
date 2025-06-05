@@ -22,8 +22,10 @@
         "ms-toolsai.jupyter",
         "ms-python.black-formatter",
         "mathematic.vscode-pdf",
-        "ms-dotnettools.csdevkit"
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.dotnet-interactive-vscode"
       ]
     }
-  }
+  },
+  "postCreateCommand": "dotnet tool install -g Microsoft.dotnet-interactive && dotnet interactive jupyter install"
 }
