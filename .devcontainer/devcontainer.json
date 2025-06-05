@@ -2,10 +2,6 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
   "name": "AI Agent Development Environment",
-  // "build": {
-  //   "dockerfile": "Dockerfile",
-  //   "context": ".."
-  // },
   "features": {
     "ghcr.io/devcontainers/features/azure-cli:1": {
       "extensions": "ml"
