@@ -26,6 +26,7 @@ param embeddingModelFormat string = 'OpenAI'
 param embeddingModelVersion string = '2024-11-20'
 param embeddingModelSkuName string = 'GlobalStandard'
 param embeddingModelCapacity int = 350
+param temp int = 350
 
 // Load standard Azure abbreviations
 var abbr = json(loadTextContent('./abbreviations.json'))

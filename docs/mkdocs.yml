@@ -1,21 +1,33 @@
-site_name: Build your code-first agent with Azure AI Foundry
+site_name: AI Agent Workshop
+site_description: A workshop to learn about AI Agents and how to build them using Azure Foundry and GitHub Models.
+site_author: Rakesh Lakshminarayanana
+site_url: https://binarytrails-ai.github.io/aiagent-workshop/lab-2-file_search/
 
 nav:
   - Introduction: index.md
-  - Solution Architecture: architecture.md
-  - Security Considerations: security.md
-  - Getting Started: getting-started.md
+  - Getting Started: 00-getting_started.md
+  - Lab 1 Building with GitHub Models: 01-lab-1-using_github_models.md
+  - Lab 2 Using Azure AI Foundry Agents: 02-lab-2-using_azure_foundry.md
+  - Lab 3 Extending Agents with Tools tools: 03-lab-3-using_tools.md
+  - Lab 4 Multi-Agent Orchestration: 04-lab-4-multi_agent_orchestration.md
+  - Lab 5 Instrucmentation: 04-lab-5-instrumentation.md
+
+
+  - Introduction: old/index.md
+  - Solution Architecture: old/architecture.md
+  - Security Considerations: old/security.md
+  - Getting Started: old/getting-started.md
   # - Workshop Setup:
   #   - BUILD Attendees: introduction-event.md
   #   - Self-Guided Learners: introduction-self-guided.md
-  - Lab 1 Function Calling Power: lab-1-function_calling.md
-  - Lab 2 Grounding with Documents: lab-2-file_search.md
-  - Lab 3 Intro to the Code Interpreter: lab-3-code_interpreter.md
-  - Lab 4 Grounding with Bing Search: lab-4-bing_search.md
-  - Lab 5 Multilingual Visualizations: lab-5-multilingual.md
-  - Lab 6 Finishing Up: finishing-up.md
-  - Summary: summary.md
-  - Resources: resources.md
+  - Lab 1 Function Calling Power: old/lab-1-function_calling.md
+  - Lab 2 Grounding with Documents: old/lab-2-file_search.md
+  - Lab 3 Intro to the Code Interpreter: old/lab-3-code_interpreter.md
+  - Lab 4 Grounding with Bing Search: old/lab-4-bing_search.md
+  - Lab 5 Multilingual Visualizations: old/lab-5-multilingual.md
+  - Lab 6 Finishing Up: old/finishing-up.md
+  - Summary: old/summary.md
+  - Resources: old/resources.md
   # - Deployment: deployment.md
   # - Troubleshooting: troubleshooting.md
 

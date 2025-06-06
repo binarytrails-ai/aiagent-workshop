@@ -1,5 +1,7 @@
 # Build your code-first agent with Azure AI 
 
+## A 75-minute interactive workshop
+
 Imagine you are a sales manager at Contoso, a multinational retail company that sells outdoor equipment. You need to analyze sales data to find trends, understand customer preferences, and make informed business decisions. To help you, Contoso has developed a conversational agent that can answer questions about your sales data.
 
 ![Contoso Sales Analysis Agent](media/persona.png)
