@@ -56,23 +56,21 @@ resource aiServices 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   }
 }
 
-
-
-// resource chatCompletionModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
-//   parent: aiServices
-//   name: modelName
-//   sku: {
-//     capacity: modelCapacity
-//     name: modelSkuName
-//   }
-//   properties: {
-//     model: {
-//       name: modelName
-//       format: modelFormat
-//       version: modelVersion
-//     }
-//   }
-// }
+resource chatCompletionModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
+  parent: aiServices
+  name: modelName
+  sku: {
+    capacity: modelCapacity
+    name: modelSkuName
+  }
+  properties: {
+    model: {
+      name: modelName
+      format: modelFormat
+      version: modelVersion
+    }
+  }
+}
 
 // resource embeddingModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
 //   parent: aiServices

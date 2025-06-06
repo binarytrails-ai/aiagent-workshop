@@ -18,14 +18,14 @@ param chatCompletionModelFormat string = 'OpenAI'
 param chatCompletionModelVersion string = '2024-11-20'
 param chatCompletionModelSkuName string = 'GlobalStandard'
 param chatCompletionModelCapacity int = 50
-param modelLocation string = location
+param modelLocation string = 'eastus'
 
 // Embedding model parameters
-param embeddingModelName string = 'textembed-mii-small'
+param embeddingModelName string = 'text-embedding-3-small'
 param embeddingModelFormat string = 'OpenAI'
-param embeddingModelVersion string = '2'
+param embeddingModelVersion string = '2024-11-20'
 param embeddingModelSkuName string = 'GlobalStandard'
-param embeddingModelCapacity int = 1
+param embeddingModelCapacity int = 350
 
 // Load standard Azure abbreviations
 var abbr = json(loadTextContent('./abbreviations.json'))
