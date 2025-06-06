@@ -8,36 +8,47 @@ param environmentName string
 
 @minLength(1)
 @description('Primary location for all resources')
-param location string
+param location string = 'australiaeast'
 
 param resourcePrefix string = 'aiagentwks'
-param deploymentTimestamp string = utcNow()
 
 // Azure AI Service parameters
-param modelName string = 'gpt-4o'
-param modelFormat string = 'OpenAI'
-param modelVersion string = '2024-11-20'
-param modelSkuName string = 'GlobalStandard'
-param modelCapacity int = 140
+param chatCompletionModel string = 'gpt-4o'
+param chatCompletionModelFormat string = 'OpenAI'
+param chatCompletionModelVersion string = '2024-11-20'
+param chatCompletionModelSkuName string = 'GlobalStandard'
+param chatCompletionModelCapacity int = 50
 param modelLocation string = location
 
+// Embedding model parameters
+param embeddingModelName string = 'textembed-mii-small'
+param embeddingModelFormat string = 'OpenAI'
+param embeddingModelVersion string = '2'
+param embeddingModelSkuName string = 'GlobalStandard'
+param embeddingModelCapacity int = 1
+
+// Load standard Azure abbreviations
 var abbr = json(loadTextContent('./abbreviations.json'))
 
-var baseResourceName = '${resourcePrefix}-${environmentName}'
-var uniqueSuffixValue = substring(uniqueString(baseResourceName, deploymentTimestamp), 0, 4)
-var rgName = '${abbr.resourceGroups}${baseResourceName}'
+// Resource naming convention
+var rgName = '${abbr.resourceGroups}${resourcePrefix}-${environmentName}'
+var uniqueSuffixValue = substring(uniqueString(subscription().subscriptionId, rgName), 0, 6)
 
+// Resource names
 var resourceNames = {
   aiServices: '${abbr.aiServicesAccounts}${uniqueSuffixValue}'
-  storageAccount: toLower('${abbr.storageStorageAccounts}${replace(baseResourceName, '-', '')}${uniqueSuffixValue}')
+  storageAccount: toLower('${abbr.storageStorageAccounts}${replace(uniqueSuffixValue, '-', '')}')
   aiHub: '${abbr.aiFoundryHubs}${uniqueSuffixValue}'
   aiProject: '${abbr.aiFoundryAccounts}proj-${uniqueSuffixValue}'
 }
 
+// Tags
 var tags = {
   'azd-env-name': environmentName
+  'azd-service-name': 'aiagent'
 }
 
+// Resource group
 resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: rgName
   location: location
@@ -55,12 +66,19 @@ module aiDependencies 'modules/ai-services.bicep' = {
     tags: tags
 
     // Model deployment parameters
-    modelName: modelName
-    modelFormat: modelFormat
-    modelVersion: modelVersion
-    modelSkuName: modelSkuName
-    modelCapacity: modelCapacity
+    modelName: chatCompletionModel
+    modelFormat: chatCompletionModelFormat
+    modelVersion: chatCompletionModelVersion
+    modelSkuName: chatCompletionModelSkuName
+    modelCapacity: chatCompletionModelCapacity
     modelLocation: modelLocation
+
+    // Embedding model parameters
+    embeddingModelName: embeddingModelName
+    embeddingModelFormat: embeddingModelFormat
+    embeddingModelVersion: embeddingModelVersion
+    embeddingModelSkuName: embeddingModelSkuName
+    embeddingModelCapacity: embeddingModelCapacity
   }
 }
 
@@ -99,6 +117,19 @@ module aiProject 'modules/ai-project.bicep' = {
   }
 }
 
-output subscriptionId string = subscription().subscriptionId
-output resourceGroupName string = rgName
-output aiProjectName string = resourceNames.aiProject
+output AZURE_LOCATION string = location
+output AZURE_TENANT_ID string = tenant().tenantId
+output AZURE_SUBSCRIPTION_ID string = subscription().subscriptionId
+output AZURE_RESOURCE_GROUP string = rg.name
+
+output AZURE_AI_HUB_NAME string = aiHub.outputs.aiHubName
+output AZURE_AI_HUB_ID string = aiHub.outputs.aiHubId
+output AZURE_AI_PROJECT_NAME string = aiProject.outputs.aiProjectName
+output AZURE_AI_PROJECT_ID string = aiProject.outputs.aiProjectId
+
+// // AI Services outputs
+output AZURE_AI_SERVICE_ENDPOINT string = aiDependencies.outputs.aiServicesTarget
+output AZURE_AI_SERVICE_NAME string = aiDependencies.outputs.aiServicesName
+output AZURE_STORAGE_ACCOUNT string = resourceNames.storageAccount
+output AZURE_OPENAI_SERVICE_ENDPOINT string = 'https://${aiDependencies.outputs.aiServicesName}.openai.azure.com/'
+// output AZURE_STORAGE_ID string = aiDependencies.outputs.storageId

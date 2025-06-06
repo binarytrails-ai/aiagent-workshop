@@ -7,23 +7,38 @@ param tags object = {}
 @description('AI services name')
 param aiServicesName string
 
-@description('Model name for deployment')
+@description('Chat completion model name for deployment')
 param modelName string
 
-@description('Model format for deployment')
+@description('Chat completion model format for deployment')
 param modelFormat string
 
-@description('Model version for deployment')
+@description('Chat completion model version for deployment')
 param modelVersion string
 
-@description('Model deployment SKU name')
+@description('Chat completion model deployment SKU name')
 param modelSkuName string
 
-@description('Model deployment capacity')
+@description('Chat completion model deployment capacity')
 param modelCapacity int
 
 @description('Model/AI Resource deployment location')
 param modelLocation string
+
+@description('Embedding model name for deployment')
+param embeddingModelName string
+
+@description('Embedding model format for deployment')
+param embeddingModelFormat string
+
+@description('Embedding model version for deployment')
+param embeddingModelVersion string
+
+@description('Embedding model deployment SKU name')
+param embeddingModelSkuName string
+
+@description('Embedding model deployment capacity')
+param embeddingModelCapacity int
 
 resource aiServices 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   name: aiServicesName
@@ -41,7 +56,9 @@ resource aiServices 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   }
 }
 
-// resource modelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
+
+
+// resource chatCompletionModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
 //   parent: aiServices
 //   name: modelName
 //   sku: {
@@ -53,6 +70,22 @@ resource aiServices 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
 //       name: modelName
 //       format: modelFormat
 //       version: modelVersion
+//     }
+//   }
+// }
+
+// resource embeddingModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
+//   parent: aiServices
+//   name: embeddingModelName
+//   sku: {
+//     capacity: embeddingModelCapacity
+//     name: embeddingModelSkuName
+//   }
+//   properties: {
+//     model: {
+//       name: embeddingModelName
+//       format: embeddingModelFormat
+//       version: embeddingModelVersion
 //     }
 //   }
 // }
@@ -125,4 +158,5 @@ resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = {
 
 output aiServicesId string = aiServices.id
 output aiServicesTarget string = aiServices.properties.endpoint
+output aiServicesName string = aiServices.properties.customSubDomainName
 output storageId string = storage.id

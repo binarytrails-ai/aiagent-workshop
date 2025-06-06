@@ -23,7 +23,7 @@ param aiServicesId string
 param aiServicesTarget string
 
 @description('Model/AI Resource deployment location')
-param modelLocation string 
+param modelLocation string
 
 resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-10-01' = {
   name: aiHubName
@@ -62,3 +62,4 @@ resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-10-01' = {
 }
 
 output aiHubId string = aiHub.id
+output aiHubName string = aiHub.name
