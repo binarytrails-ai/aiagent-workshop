@@ -131,5 +131,5 @@ output AZURE_AI_PROJECT_ID string = aiProject.outputs.aiProjectId
 output AZURE_AI_SERVICE_ENDPOINT string = aiDependencies.outputs.aiServicesTarget
 output AZURE_AI_SERVICE_NAME string = aiDependencies.outputs.aiServicesName
 output AZURE_STORAGE_ACCOUNT string = resourceNames.storageAccount
-output AZURE_OPENAI_SERVICE_ENDPOINT string = 'https://${aiDependencies.outputs.aiServicesName}.openai.azure.com/'
+output AZURE_OPENAI_ENDPOINT string = 'https://${aiDependencies.outputs.aiServicesName}.openai.azure.com/'
 // output AZURE_STORAGE_ID string = aiDependencies.outputs.storageId
