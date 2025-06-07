@@ -48,7 +48,7 @@ Head to your code repository and follow the instructions in each lab notebook to
 
 ### LAB 1.1 : Interacting with Large Language Models using Semantic Kernel
 
-Navigate to the `notebooks/semantic-kernel-basic/interacting_with_models.ipynb` notebook in your code repository to start the lab.
+Navigate to the `notebooks/semantic-kernel/interacting_with_models.ipynb` notebook in your code repository to start the lab.
 
 This lab will introduce you to Semantic Kernel and how to interact with different Large Language Models (LLMs) using it.
 
@@ -61,7 +61,7 @@ This lab will introduce you to Semantic Kernel and how to interact with differen
 
 ### LAB 1.2 : Function Calling in Semantic Kernel
 
-Navigate to the `notebooks/semantic-kernel-basic/function_calling.ipynb` notebook in your code repository to start this lab.
+Navigate to the `notebooks/semantic-kernel/function_calling.ipynb` notebook in your code repository to start this lab.
 
 This lab will guide you through using Semantic Kernel to call and orchestrate functions.
 
