@@ -62,7 +62,7 @@ This lab will introduce you to Semantic Kernel and how to interact with differen
 
 Navigate to the `notebooks/semantic-kernel-basic/function_calling.ipynb` notebook in your code repository to start this lab.
 
-This lab will guide you through using Semantic Kernel to call and orchestrate functions, both semantic and native.
+This lab will guide you through using Semantic Kernel to call and orchestrate functions.
 
 **Objectives:**
 
