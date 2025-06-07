@@ -1,4 +1,4 @@
-# Using GitHub Models in Semantic Kernel
+# Explore Semantic Kernel using GitHub Models
 
 ## Welcome to the hands-on labs! 🎉
 
@@ -45,43 +45,6 @@ If you are using Codespaces, all required packages are pre-installed.
 Most of the labs use Jupyter notebooks, which provide an interactive environment for running code and visualizing results.
 
 Head to your code repository and follow the instructions in each lab notebook to complete the exercises.
-
-### LAB 1.1 : Interacting with Large Language Models using Semantic Kernel
-
-Navigate to the `notebooks/semantic-kernel/interacting_with_models.ipynb` notebook in your code repository to start the lab.
-
-This lab will introduce you to Semantic Kernel and how to interact with different Large Language Models (LLMs) using it.
-
-**Objectives:**
-
-- Set up Semantic Kernel in C#.
-- Connect to different LLM providers (OpenAI, Azure OpenAI, GitHub Models).
-- Use model parameters to customize responses.
-- Send prompts and use prompt templates with kernel arguments.
-
-### LAB 1.2 : Function Calling in Semantic Kernel
-
-Navigate to the `notebooks/semantic-kernel/function_calling.ipynb` notebook in your code repository to start this lab.
-
-This lab will guide you through using Semantic Kernel to call and orchestrate functions.
-
-**Objectives:**
-
-- Understand how Semantic Kernel orchestrates function execution.
-- Define and use inline semantic functions.
-- Passing parameters to functions.
-- Register and invoke C# plugin (native) functions.
-
-### LAB 1.3 : Building Agents with Semantic Kernel
-
-Navigate to the `notebooks/semantic-kernel/agents.ipynb` notebook in your code repository to start this lab
-
-The lab will introduce you to building agents and  orchestrating multiple agents using Semantic Kernel.
-
-**Objectives:**
-
-- Use agents to interact with LLMs and perform tasks.
-- Mult-agents orchestration.
 
 ## Further Reading 📚
 
