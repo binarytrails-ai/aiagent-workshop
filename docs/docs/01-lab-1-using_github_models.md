@@ -34,7 +34,7 @@ You will also explore how to use GitHub Models, which are free to use and provid
 5. Update the `.env` file with your GitHub Models API key:
 
     ```plaintext
-    GITHUB_TOKEN=your_github_models_api_key
+    GITHUB_TOKEN=<your_github_models_api_key>
     ```
 
 ---
