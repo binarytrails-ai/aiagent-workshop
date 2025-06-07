@@ -17,7 +17,6 @@ In this lab, you will learn how to use Azure AI Foundry Agents to build and exte
 2. In this lab, you will use **Azure AI Foundry Agents**.
    <br>To deploy the required Azure resources, use the [Azure Developer CLI (`azd`)](https://learn.microsoft.com/azure/developer/azure-developer-cli/).
    <br>Navigate to your code repository and run the following commands from the root directory:
-
     - Log in to your Azure account by entering the following command in your terminal. This will open a browser window for you to log in to your Azure account. Enter the device code displayed in the terminal and authenticate your account.
       ```bash
       azd auth login --use-device-code
@@ -30,7 +29,12 @@ In this lab, you will learn how to use Azure AI Foundry Agents to build and exte
       ```bash
       azd up
       ```
----
+        When you run this command, you will be prompted to provide values for the `environment name` and `location`. Enter `dev` as the environment name and `australiaeast` as the location. You can accept the default values for any additional prompts.</br>
+        If you get an error as `TODO:Add the error message here`, add the `AZURE_LOCATION` environment variable to your `.env` file located in `.azure/dev/` directory -
+        ```plaintext
+        AZURE_LOCATION="australiaeast"
+        ```
+3. After the deployment is complete, copy all the environment variables from the `.env` file located iatn `.azure/dev/.env` into `.env` file in the root directory of your code repository.
 
 ## Let's get started 👩‍💻🤖
 
