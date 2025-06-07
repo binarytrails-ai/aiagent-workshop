@@ -50,4 +50,3 @@ Head to your code repository and follow the instructions in each lab notebook to
 
 - [Semantic Kernel Documentation](https://learn.microsoft.com/semantic-kernel/)
 - [GitHub Models Documentation](https://docs.github.com/en/github-models/use-github-models)
-- [Function calling with chat completion](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/function-calling)
