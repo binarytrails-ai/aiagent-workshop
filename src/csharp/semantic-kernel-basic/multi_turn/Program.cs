@@ -8,6 +8,7 @@ using System.ClientModel;
 using OpenAI;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 using System.Text;
 using DotNetEnv;
 using System.IO;
@@ -59,6 +60,17 @@ var chat = kernel.GetRequiredService<IChatCompletionService>();
 
 // Step 3: Multi-turn chat loop
 // The chat history maintains the conversation context for multi-turn interactions.
+
+// The OpenAIPromptExecutionSettings object allows you to control how the AI model generates its response.
+// - MaxTokens: Limits the maximum number of tokens (words or word pieces) in the response. Here, it's set to 2000, allowing for long answers.
+// - Temperature: Controls the randomness of the output. Lower values (like 0.2) make the output more focused and deterministic, while higher values make it more creative and random.
+// - TopP: Implements nucleus sampling. The model considers only the most likely tokens whose cumulative probability is at least TopP (here, 0.5). Lower values make the output more focused.
+var executionSettings = new OpenAIPromptExecutionSettings 
+{
+    MaxTokens = 2000,
+    Temperature = 0.2,
+    TopP = 0.5
+};
 var history = new ChatHistory();
 history.AddSystemMessage("You are a useful chatbot. If you don't know an answer, say 'I don't know!'. Always reply in a funny way. Use emojis if possible.");
 
@@ -74,7 +86,7 @@ while (true)
 
     // Step 4: Call the Kernel and stream the response
     var sb = new StringBuilder();
-    var result = chat.GetStreamingChatMessageContentsAsync(history);
+    var result = chat.GetStreamingChatMessageContentsAsync(history,executionSettings);
     Console.Write("AI: ");
     await foreach (var item in result)
     {
