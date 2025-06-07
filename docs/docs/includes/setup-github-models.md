@@ -1,6 +1,6 @@
 # 🚀 Get Started with GitHub Models
 
-This guide will walk you through the setting up ChatGPT (OpenAI GPT-4.1) on GitHub.
+This guide will walk you through the setting up ChatGPT (OpenAI GPT-4o) on GitHub.
 
 GitHub Models are **free to use**, meaning you can explore and build without worrying about costs. However, **rate limits** that apply, so you can only make a certain number of requests per minute. If you hit a limit, just wait a bit before trying again.
 
