@@ -72,6 +72,17 @@ This lab will guide you through using Semantic Kernel to call and orchestrate fu
 - Passing parameters to functions.
 - Register and invoke C# plugin (native) functions.
 
+### LAB 1.3 : Building Agents with Microsoft Semantic Kernel in .NET
+
+Navigate to the `notebooks/semantic-kernel/agents.ipynb` notebook in your code repository to start this lab
+
+The lab will introduce you to building agents and  orchestrating multiple agents using Semantic Kernel.
+
+**Objectives:**
+
+- Use agents to interact with LLMs and perform tasks.
+- Mult-agents orchestration.
+
 ## Further Reading 📚
 
 - [Semantic Kernel Documentation](https://learn.microsoft.com/semantic-kernel/)
