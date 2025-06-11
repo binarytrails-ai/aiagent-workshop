@@ -1,7 +1,7 @@
 site_name: AI Agent Workshop
 site_description: A workshop to learn about AI Agents and how to build them using Azure Foundry and GitHub Models.
 site_author: Rakesh Lakshminarayanana
-site_url: https://binarytrails-ai.github.io/aiagent-workshop/lab-2-file_search/
+site_url: https://binarytrails-ai.github.io/aiagent-workshop
 
 nav:
   # - Introduction: index.md
@@ -42,6 +42,17 @@ plugins:
   - include-markdown
 
 theme:
+  # palette:
+  #   - media: "(prefers-color-scheme: light)"
+  #     scheme: default
+  #     toggle:
+  #       icon: material/toggle-switch-off-outline
+  #       name: Switch to dark mode
+  #   - media: "(prefers-color-scheme: dark)"
+  #     scheme: slate
+  #     toggle:
+  #       icon: material/toggle-switch
+  #       name: Switch to light mode
   name: material
   logo: media/favicon.png
   favicon: media/favicon.png
