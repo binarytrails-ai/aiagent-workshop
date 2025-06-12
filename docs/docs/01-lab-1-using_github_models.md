@@ -2,9 +2,9 @@
 
 ## Welcome to the hands-on labs! 🎉
 
-In this lab, you will learn how to interact with Large Language Models (LLMs) using Semantic Kernel. This will give you a solid foundation for building AI agents and applications using Semantic Kernel.
+In this lab, you will learn how to interact with Large Language Models (LLMs) using Semantic Kernel.
 
-You will also explore how to use GitHub Models, which are free to use and provide a great way to prototype and experiment with AI models.
+You will use [GitHub Models](https://github.com/marketplace?type=models), which are free and provide a great way to prototype and experiment with different Large Language Models (LLMs).
 
 ---
 
@@ -19,7 +19,7 @@ You will also explore how to use GitHub Models, which are free to use and provid
     - On the top right corner of the **Playground**, click on the **Use this model** button. This will open a pop-up window with API key options.
     - Select **Get Developer Key**. This will take you to the page to create Personal Access Token (PAT).
     - Click on **Generate new token**.
-    - Give your token a name, like `GitHub Models Access`.
+    - Give your token a name, like `aiagent-workshop`.
     - Set the expiration to **No expiration** (or choose a suitable duration).
     - Under Permissions, navigate to Models and select  **Read-Only** access.
     - Click on **Generate token**. You will see a confirmation message with your new token.
@@ -41,10 +41,13 @@ You will also explore how to use GitHub Models, which are free to use and provid
 
 ## Let's get started 👩‍💻🤖
 
-If you are using Codespaces, all required packages are pre-installed.
-Most of the labs use Jupyter notebooks, which provide an interactive environment for running code and visualizing results.
+Start your first exercise for this lab here:
 
-Head to your code repository and follow the instructions in each lab notebook to complete the exercises.
+👉 **[Lab 1.1: Interacting with Large Language Models using Semantic Kernel](./01-lab-1.1-interacting_with_llm.md)**
+
+Happy coding!
+
+---
 
 ## Further Reading 📚
 

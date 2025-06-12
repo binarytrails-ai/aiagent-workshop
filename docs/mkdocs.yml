@@ -5,6 +5,7 @@ site_url: https://binarytrails-ai.github.io/aiagent-workshop
 
 nav:
   # - Introduction: index.md
+  - Getting Started: 00-getting_started.md
   - "LAB 1: Explore Semantic Kernel using GitHub Models":
       - Introduction: 01-lab-1-using_github_models.md
       - 1.1 Interacting with Large Language Models: 01-lab-1.1-interacting_with_llm.md
