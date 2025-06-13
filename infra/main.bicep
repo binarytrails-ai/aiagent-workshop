@@ -39,8 +39,8 @@ var resourceNames = {
   aiService: toLower('${abbr.aiServicesAccounts}${uniqueSuffixValue}')
   keyVault: toLower('${abbr.keyVault}${uniqueSuffixValue}')
   storageAccount: toLower('${abbr.storageStorageAccounts}${replace(uniqueSuffixValue, '-', '')}')
-  aiHub: toLower('${abbr.aiFoundryHubs}${uniqueSuffixValue}')
-  aiProject: toLower('${abbr.aiFoundryAccounts}proj-${uniqueSuffixValue}')
+  aiFoundryAccount: toLower('${abbr.aiFoundryAccounts}${uniqueSuffixValue}')
+  aiFoundryProject: toLower('${abbr.aiFoundryAccounts}proj-${uniqueSuffixValue}')
   aiSearch: toLower('${abbr.aiSearchSearchServices}${replace(uniqueSuffixValue, '-', '')}')
   logAnalytics: toLower('log-${uniqueSuffixValue}')
   appInsights: toLower('appi-${uniqueSuffixValue}')
@@ -74,7 +74,30 @@ module shared 'modules/shared.bicep' = {
   }
 }
 
-// Deploy dependent resources for the AI Hub
+//Create AI Foundry Account
+module aiFoundryAccount 'modules/ai-foundry-account.bicep' = {
+  scope: rg
+  name: 'foundry-${uniqueSuffixValue}'
+  params: {
+    name: resourceNames.aiFoundryAccount
+    location: location
+    tags: tags
+  }
+}
+
+// Create AI Foundry Project
+module aiProject 'modules/ai-project.bicep' = {
+  scope: rg
+  name: 'proj-${uniqueSuffixValue}'
+  params: {
+    name: resourceNames.aiFoundryProject
+    location: location
+    tags: tags
+    aiFoundryName: aiFoundryAccount.outputs.name
+  }
+}
+
+// Create the OpenAI Service
 module aiDependencies 'modules/ai-services.bicep' = {
   scope: rg
   name: 'dep-${uniqueSuffixValue}'
@@ -82,6 +105,8 @@ module aiDependencies 'modules/ai-services.bicep' = {
     aiServicesName: resourceNames.aiService
     location: location
     tags: tags
+
+    aiFoundryAccountName: aiFoundryAccount.outputs.name
     // Model deployment parameters
     modelName: chatCompletionModel
     modelFormat: chatCompletionModelFormat
@@ -99,67 +124,24 @@ module aiDependencies 'modules/ai-services.bicep' = {
   }
 }
 
-// Deploy the AI Hub
-module aiHub 'modules/ai-hub.bicep' = {
-  scope: rg
-  name: 'hub-${uniqueSuffixValue}'
-  params: {
-    aiHubName: resourceNames.aiHub
-    aiHubFriendlyName: 'AI Agent Workshop Hub'
-    aiHubDescription: 'AI Hub for the Azure AI Agent Workshop'
-    location: location
-    tags: tags
-
-    // dependent resources
-    // modelLocation: modelLocation
-    keyVaultId: shared.outputs.keyVaultId
-    storageAccountId: shared.outputs.storageAccountId
-    openAiServiceId: aiDependencies.outputs.openAiServiceResourceId
-    openAiServiceEndpoint: aiDependencies.outputs.openAiServiceEndpoint
-    aiSearchId: shared.outputs.aiSearchResourceId
-    aiSearchName: shared.outputs.aiSearchName
-    aiSearchEndpoint: shared.outputs.aiSearchEndpoint
-    appInsightsResourceId: shared.outputs.appInsightsResourceId
-  }
-}
-
-// Deploy the AI Project
-module aiProject 'modules/ai-project.bicep' = {
-  scope: rg
-  name: 'proj-${uniqueSuffixValue}'
-  params: {
-    aiProjectName: resourceNames.aiProject
-    aiProjectFriendlyName: 'AI Agent Workshop Project'
-    aiProjectDescription: 'AI Project for the Azure AI Agent Workshop'
-    location: location
-    tags: tags
-    // dependent resources
-    aiHubId: aiHub.outputs.aiHubId
-    openAiServiceName: aiDependencies.outputs.openAiServiceName
-    aiSearchServiceName: resourceNames.aiSearch
-  }
-}
-
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
 output AZURE_SUBSCRIPTION_ID string = subscription().subscriptionId
 output AZURE_RESOURCE_GROUP string = rg.name
+output AZURE_STORAGE_ACCOUNT string = resourceNames.storageAccount
 
-output AZURE_AI_HUB_NAME string = aiHub.outputs.aiHubName
-output AZURE_AI_HUB_ID string = aiHub.outputs.aiHubId
-output AZURE_AI_PROJECT_NAME string = aiProject.outputs.aiProjectName
-output AZURE_AI_PROJECT_ID string = aiProject.outputs.aiProjectId
+output AZURE_AI_PROJECT_NAME string = aiProject.outputs.name
+output AZURE_AI_PROJECT_ENDPOINT string = aiProject.outputs.endpoint
 
 // // AI Services outputs
-output AZURE_AI_SERVICE_ENDPOINT string = aiDependencies.outputs.openAiServiceEndpoint
-output AZURE_AI_SERVICE_DOMAIN_NAME string = aiDependencies.outputs.openAiServiceDomain
-output AZURE_STORAGE_ACCOUNT string = resourceNames.storageAccount
-output AZURE_OPENAI_ENDPOINT string = 'https://${aiDependencies.outputs.openAiServiceDomain}.openai.azure.com/'
+// output AZURE_AI_SERVICE_ENDPOINT string = aiDependencies.outputs.openAiServiceEndpoint
+// output AZURE_AI_SERVICE_DOMAIN_NAME string = aiDependencies.outputs.openAiServiceDomain
+
+// output AZURE_OPENAI_ENDPOINT string = 'https://${aiDependencies.outputs.openAiServiceDomain}.openai.azure.com/'
 output AZURE_SEARCH_SERVICE_NAME string = shared.outputs.aiSearchName
 output AZURE_SEARCH_SERVICE_ENDPOINT string = shared.outputs.aiSearchEndpoint
 
 // Add outputs for Log Analytics and App Insights 
 output AZURE_LOG_ANALYTICS_WORKSPACE_NAME string = shared.outputs.logAnalyticsWorkspaceName
-output AZURE_APP_INSIGHTS_NAME string = shared.outputs.appInsightsName
 output AZURE_APP_INSIGHTS_INSTRUMENTATION_KEY string = shared.outputs.appInsightsInstrumentationKey
 output AZURE_APP_INSIGHTS_CONNECTION_STRING string = shared.outputs.appInsightsConnectionString

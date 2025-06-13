@@ -2,63 +2,32 @@
 param location string
 
 @description('Tags to add to the resources')
-param tags object
+param tags object = {}
 
 @description('AI Project name')
-param aiProjectName string
+param name string
 
-@description('AI Project display name')
-param aiProjectFriendlyName string = aiProjectName
+@description('Name of the Azure AI Foundry resource (parent account)')
+param aiFoundryName string
 
-@description('AI Project description')
-param aiProjectDescription string
+resource aiFoundry 'Microsoft.CognitiveServices/accounts@2025-04-01-preview' existing = {
+  name: aiFoundryName
+}
 
-@description('Resource ID of the AI Hub resource')
-param aiHubId string
-
-@description('Name of the Azure OpenAI resource.')
-param openAiServiceName string
-
-@description('Name of the AI Search service.')
-param aiSearchServiceName string
-
-resource aiProject 'Microsoft.MachineLearningServices/workspaces@2024-10-01' = {
-  name: aiProjectName
+resource aiProject 'Microsoft.CognitiveServices/accounts/projects@2025-04-01-preview' = {
+  name: name
+  parent: aiFoundry
   location: location
   tags: tags
   identity: {
     type: 'SystemAssigned'
   }
   properties: {
-    // organization
-    friendlyName: aiProjectFriendlyName
-    description: aiProjectDescription
-
-    // dependent resources
-    hubResourceId: aiHubId
+    displayName: name
   }
-  kind: 'project'
 }
-
-output aiProjectId string = aiProject.id
-output aiProjectName string = aiProject.name
+ 
+output resourceId string = aiProject.id
+output name string = aiProject.name
 output aiProjectPrincipalId string = aiProject.identity.principalId
-
-// Move role assignments inside the project module
-module aiServiceRoleAssignments 'ai-service-role-assignments.bicep' = {
-  name: 'ai-service-roles'
-  params: {
-    aiServicesName: openAiServiceName
-    aiProjectPrincipalId: aiProject.identity.principalId
-    aiProjectId: aiProject.id
-  }
-}
-
-module aiSearchRoleAssignments 'ai-search-role-assignments.bicep' = {
-  name: 'ai-search-roles'
-  params: {
-    aiSearchName: aiSearchServiceName
-    aiProjectPrincipalId: aiProject.identity.principalId
-    aiProjectId: aiProject.id
-  }
-}
+output endpoint string = 'https://${aiProject.name}.ai.azure.com/api/projects/${aiProject.name}'

@@ -7,6 +7,9 @@ param tags object = {}
 @description('AI services name')
 param aiServicesName string
 
+@description('Name of the Azure AI Foundry resource (parent account)')
+param aiFoundryAccountName string
+
 @description('Chat completion model name for deployment')
 param modelName string
 
@@ -40,24 +43,12 @@ param embeddingModelSkuName string
 @description('Embedding model deployment capacity')
 param embeddingModelCapacity int
 
-resource openAiService 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
-  name: aiServicesName
-  location: modelLocation
-  sku: {
-    name: 'S0'
-  }
-  kind: 'AIServices'
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties: {
-    customSubDomainName: toLower(aiServicesName)
-    publicNetworkAccess: 'Enabled'
-  }
+resource aiFoundryAccount 'Microsoft.CognitiveServices/accounts@2025-04-01-preview' existing = {
+  name: aiFoundryAccountName
 }
 
 resource chatCompletionModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
-  parent: openAiService
+  parent: aiFoundryAccount
   name: modelName
   sku: {
     capacity: modelCapacity
@@ -73,7 +64,7 @@ resource chatCompletionModelDeployment 'Microsoft.CognitiveServices/accounts/dep
 }
 
 resource embeddingModelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
-  parent: openAiService
+  parent: aiFoundryAccount
   dependsOn: [
     chatCompletionModelDeployment
   ]
@@ -91,7 +82,7 @@ resource embeddingModelDeployment 'Microsoft.CognitiveServices/accounts/deployme
   }
 }
 
-output openAiServiceResourceId string = openAiService.id
-output openAiServiceEndpoint string = openAiService.properties.endpoint
-output openAiServiceName string = openAiService.name
-output openAiServiceDomain string = openAiService.properties.customSubDomainName
+// output openAiServiceResourceId string = openAiService.id
+// output openAiServiceEndpoint string = openAiService.properties.endpoint
+// output openAiServiceName string = openAiService.name
+// output openAiServiceDomain string = openAiService.properties.customSubDomainName
