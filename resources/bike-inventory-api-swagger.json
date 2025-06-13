@@ -1,0 +1,169 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Contoso Bike Store API",
+    "description": "Contoso Bike Store API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://contosobikestore.azurewebsites.net/api"
+    }
+  ],
+  "paths": {
+    "/bikes": {
+      "get": {
+        "operationId": "GetAllBikes",
+        "responses": {
+          "200": {
+            "description": "The bikes catalog response message containing a JSON array of bike items.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/bikeCatalogItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bikes/{id}": {
+      "get": {
+        "operationId": "GetBikeById",
+        "responses": {
+          "200": {
+            "description": "The bike catalog response message containing a JSON object of a bike item.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bikeCatalogItem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "post": {
+        "operationId": "SubmitOrder",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/bikeOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order confirmation response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "operationId": "GetOrderStatus",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order status response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "bikeCatalogItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "priceUSD": {
+            "format": "double",
+            "type": "number"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "city": {
+            "type": "string"
+          },
+          "branch": {
+            "type": "string"
+          },
+          "stockAvailability": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "bikeOrderRequest": {
+        "type": "object",
+        "properties": {
+          "bikeId": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "customerName": {
+            "type": "string"
+          },
+          "customerEmail": {
+            "type": "string"
+          },
+          "shippingAddress": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
