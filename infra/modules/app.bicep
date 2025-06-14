@@ -77,16 +77,36 @@ resource frontendApp 'Microsoft.Web/sites@2022-03-01' = {
   }
 }
 
-// // Role assignment for backend app system-assigned managed identity
-// resource backendAppRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-//   name: guid(backendApp.id, 'backend-role-azureai-developer')
-//   scope: resourceGroup()
-//   properties: {
-//     principalType: 'ServicePrincipal'
-//     principalId: backendApp.identity.principalId
-//     roleDefinitionId: '64702f94-c441-49e6-a78b-ef80e0188fee'
-//   }
-// }
+// Role assignment for backend app system-assigned managed identity
+resource backendAppRoleAssignment1 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(backendApp.id, 'backend-role-azureai-developer')
+  scope: resourceGroup()
+  properties: {
+    principalType: 'ServicePrincipal'
+    principalId: backendApp.identity.principalId
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', '64702f94-c441-49e6-a78b-ef80e0188fee')
+  }
+}
+
+resource backendAppRoleAssignment2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(backendApp.id, 'backend-role-cognitive-services-user')
+  scope: resourceGroup()
+  properties: {
+    principalType: 'ServicePrincipal'
+    principalId: backendApp.identity.principalId
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', 'a97b65f3-24c7-4388-baec-2e87135dc908')
+  }
+}
+
+resource backendAppRoleAssignment3 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(backendApp.id, 'backend-role-cognitive-services-user2')
+  scope: resourceGroup()
+  properties: {
+    principalType: 'ServicePrincipal'
+    principalId: backendApp.identity.principalId
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', 'a97b65f3-24c7-4388-baec-2e87135dc908')
+  }
+}
 
 output BACKEND_APP_URL string = 'https://${backendApp.name}.azurewebsites.net'
 output FRONTEND_APP_URL string = 'https://${frontendApp.name}.azurewebsites.net'
