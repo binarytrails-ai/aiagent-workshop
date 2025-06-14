@@ -87,6 +87,22 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
   const [isResponding, setIsResponding] = useState(false);
   const [isLoadingChatHistory, setIsLoadingChatHistory] = useState(true);
 
+  // Add newThread handler to clear chat
+  const newThread = useCallback(async () => {
+    // Optionally, call an API endpoint to start a new thread if your backend supports it
+    setMessageList([]);
+    setIsLoadingChatHistory(false);
+    // Clear cookies related to chat (client-side only)
+    // This will only work for cookies accessible via JS (not HttpOnly)
+    document.cookie.split(";").forEach((c) => {
+      const cookieName = c.split("=")[0].trim();
+      // Optionally, filter for specific chat-related cookies
+      // if (cookieName.startsWith('chat_')) {
+      document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+      // }
+    });
+  }, []);
+
   const loadChatHistory = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/chat/history`, {
@@ -188,9 +204,15 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
           <AgentIcon iconName={agentDetails.name} alt={agentDetails.name} />
           <span className={styles.agentName}>{agentDetails.name}</span>
         </div>
-        {/* <div className={styles.rightSection}>
-          <MenuButton menuButtonText="More" menuItems={[]} />
-        </div> */}
+        <div className={styles.rightSection}>
+          <Button
+            appearance="subtle"
+            icon={<ChatRegular aria-hidden={true} />}
+            onClick={newThread}
+          >
+            New Chat
+          </Button>
+        </div>
       </div>
       <div className={styles.content}>
         {isLoadingChatHistory ? (
