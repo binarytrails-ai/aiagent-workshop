@@ -22,17 +22,20 @@ resource backendApp 'Microsoft.Web/sites@2022-03-01' = {
   tags: union(tags, {
     'azd-service-name': 'api'
   })
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
     siteConfig: {
       appSettings: [
         {
-          name: 'FRONTEND_APP_URL'
+          name: 'FrontendAppUrl'
           value: 'https://${frontendApp.name}.azurewebsites.net'
         }
         {
-          name: 'AZURE_AI_PROJECT_ENDPOINT'
+          name: 'AzureAI__AgentProjectEndpoint'
           value: foundryProjectEndpoint
         }
       ]
@@ -47,9 +50,23 @@ resource frontendApp 'Microsoft.Web/sites@2022-03-01' = {
   tags: union(tags, {
     'azd-service-name': 'web'
   })
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
+  }
+}
+
+// Role assignment for backend app system-assigned managed identity
+resource backendAppRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(backendApp.id, 'backend-role-azureai-developer')
+  scope: backendApp
+  properties: {
+    principalType: 'ServicePrincipal'
+    principalId: backendApp.identity.principalId
+    roleDefinitionId: '64702f94-c441-49e6-a78b-ef80e0188fee'
   }
 }
 
