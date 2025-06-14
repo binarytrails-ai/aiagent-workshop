@@ -15,11 +15,12 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddSingleton<AppConfig>(sp => new AppConfig(sp.GetRequiredService<IConfiguration>()));
 
 // Add CORS policy
+var frontendAppUrl = Environment.GetEnvironmentVariable("FRONTEND_APP_URL") ?? "http://localhost:5173";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy => policy
-            .WithOrigins("https://aiagentwks-web-mbo43n.azurewebsites.net")
+            .WithOrigins(frontendAppUrl)
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()

@@ -20,6 +20,7 @@ $azureSearchServiceName = $env:AZURE_SEARCH_SERVICE_NAME
 $azureStorageAccount = $env:AZURE_STORAGE_ACCOUNT
 $azureSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
 $azureTenantId = $env:AZURE_TENANT_ID
+$frontendAppUrl = $env:FRONTEND_APP_URL
 
 Add-Content -Path $envFilePath -Value "AZURE_ENV_NAME=$azureEnvName"
 Add-Content -Path $envFilePath -Value "AZURE_AI_PROJECT_ENDPOINT=$azureAIProjectEndpoint"
@@ -35,6 +36,7 @@ Add-Content -Path $envFilePath -Value "AZURE_SEARCH_SERVICE_NAME=$azureSearchSer
 Add-Content -Path $envFilePath -Value "AZURE_STORAGE_ACCOUNT=$azureStorageAccount"
 Add-Content -Path $envFilePath -Value "AZURE_SUBSCRIPTION_ID=$azureSubscriptionId"
 Add-Content -Path $envFilePath -Value "AZURE_TENANT_ID=$azureTenantId"
+Add-Content -Path $envFilePath -Value "FRONTEND_APP_URL=$frontendAppUrl"
 
 # Write-Host "🌐 Please visit web app URL:"
 # Write-Host $serviceAPIUri -ForegroundColor Cyan

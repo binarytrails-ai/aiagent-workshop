@@ -24,6 +24,14 @@ resource backendApp 'Microsoft.Web/sites@2022-03-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'FRONTEND_APP_URL'
+          value: 'https://${frontendApp.name}.azurewebsites.net'
+        }
+      ]
+    }
   }
 }
 
