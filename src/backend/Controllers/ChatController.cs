@@ -1,10 +1,10 @@
+using AIAgent.API.KernelTools;
 using AIAgent.API.Models;
 using Azure.AI.Agents.Persistent;
 using Azure.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents.AzureAI;
-using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace AIAgent.API.Controllers
 {
@@ -13,7 +13,7 @@ namespace AIAgent.API.Controllers
     public class ChatController : ControllerBase
     {
         private readonly PersistentAgentsClient _projectClient;
-        private const string ContosoInventoryAgentName = "BikeStoreInventoryAgent";
+        private const string TechSupportAgentName = "TechSupportAgent";
 
         public ChatController()
         {
@@ -27,8 +27,12 @@ namespace AIAgent.API.Controllers
         {
             var agentInfo = new
             {
-                Name = ContosoInventoryAgentName,
-                Description = "This agent assists with bike inventory inquiries at Contoso Bike Store."
+                Name = TechSupportAgentName,
+                Description = """
+                This agent provides IT and technical support for the company. 
+                It assists users with troubleshooting, technical queries, and problem resolution. 
+                The agent utilizes the `TechSupportTools` to effectively address and resolve technical issues.
+                """
             };
             return Ok(agentInfo);
         }
@@ -41,32 +45,9 @@ namespace AIAgent.API.Controllers
             var agentId = Request.Cookies["agent_id"];
 
             if (string.IsNullOrEmpty(threadId))
-                return Ok(new List<object>()); // No history for this thread
+                return Ok(new List<ChatMessageHistory>()); // No history for this thread
 
-            var agent = await GetOrCreateAgentAsync(agentId);
-
-            var persistentThread = await _projectClient.Threads.GetThreadAsync(threadId);
-            if (persistentThread == null)
-                return Ok(new List<object>()); // No history for this thread
-
-            var agentThread = new AzureAIAgentThread(_projectClient, persistentThread.Value.Id);
-            var messages = new List<ChatMessageHistory>();
-            await foreach (var msg in _projectClient.Messages.GetMessagesAsync(agentThread.Id))
-            {
-                foreach (var content in msg.ContentItems)
-                {
-                    if (content is MessageTextContent)
-                    {
-                        messages.Add(new ChatMessageHistory
-                        {
-                            Role = msg.Role == Azure.AI.Agents.Persistent.MessageRole.User ? "user" : "assistant",
-                            Content = (content as MessageTextContent).Text,
-                            CreatedAt = msg.CreatedAt.ToString("o") // ISO 8601 format
-                        });
-                    }
-                }
-            }
-
+            var messages = await ChatUtils.GetChatMessageHistoryAsync(threadId, _projectClient);
             return Ok(messages);
         }
 
@@ -78,20 +59,9 @@ namespace AIAgent.API.Controllers
             var agentId = Request.Cookies["agent_id"];
 
             var agent = await GetOrCreateAgentAsync(agentId);
+            var agentThread = await ChatUtils.GetOrCreateAgentThreadAsync(threadId, _projectClient);
 
-            AzureAIAgentThread agentThread = null;
-            if (!string.IsNullOrEmpty(threadId))
-            {
-                var persistentThread = await _projectClient.Threads.GetThreadAsync(threadId);
-                if (persistentThread != null)
-                    agentThread = new AzureAIAgentThread(_projectClient, persistentThread.Value.Id);
-            }
-
-            agentThread ??= new AzureAIAgentThread(_projectClient);
-            var userMessage = new ChatMessageContent(AuthorRole.User, request.Message);
-            await foreach (var response in agent.InvokeAsync(userMessage, agentThread))
-            {
-            }
+            await ChatUtils.InvokeAgent(request.Message, agent, agentThread);
 
             // Set cookies for thread and agent IDs
             Response.Cookies.Append("thread_id", agentThread.Id);
@@ -100,16 +70,17 @@ namespace AIAgent.API.Controllers
             return Ok();
         }
 
+
         private async Task<AzureAIAgent> GetOrCreateAgentAsync(string agentId)
         {
             PersistentAgent agentDefinition = null;
             var modelId = Config.AZURE_OPENAI_DEPLOYMENT_NAME;
             var agentInstructions = """
-            You are a helpful assistant for Contoso Bike Store. Use the BikeInventoryPlugin to answer questions about bike availability and features.
-            If the user asks for a bike that is not in stock, inform them politely.
-            If the user asks for a list of available bikes, provide the list.
-            If the user asks for other information, politely decline and suggest they ask about bikes in the store.
-            If the user asks for bike features, provide a short description if available.
+            You are a helpful technical support assistant for the company. Your primary responsibility is to assist users with IT support and technical queries.
+            Always use the `TechSupportTools` tool to help resolve technical issues when appropriate.
+            If a user asks for information or assistance outside of technical support, politely decline and encourage them to ask about IT support or technical matters.
+            If you are unable to assist with a request, respond courteously and let the user know you can only help with technical support issues.
+            Be clear, concise, and professional in all your responses.
             """;
 
             if (!string.IsNullOrEmpty(agentId))
@@ -128,7 +99,7 @@ namespace AIAgent.API.Controllers
             {
                 await foreach (var agentDefn in _projectClient.Administration.GetAgentsAsync())
                 {
-                    if (agentDefn.Name == ContosoInventoryAgentName)
+                    if (agentDefn.Name == TechSupportAgentName)
                         agentDefinition = agentDefn;
                 }
             }
@@ -137,13 +108,15 @@ namespace AIAgent.API.Controllers
             {
                 agentDefinition = await _projectClient.Administration.CreateAgentAsync(
                   modelId,
-                  name: ContosoInventoryAgentName,
+                  name: TechSupportAgentName,
                   instructions: agentInstructions,
                   tools: [],
                   toolResources: null);
             }
 
-            return new AzureAIAgent(agentDefinition, _projectClient);
+            var agent = new AzureAIAgent(agentDefinition, _projectClient);
+            agent.Kernel.ImportPluginFromObject(new TechSupportTools(), "TechSupportTools");
+            return agent;
         }
     }
 }

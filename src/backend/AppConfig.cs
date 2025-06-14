@@ -14,7 +14,6 @@ namespace AIAgent.API
 
         // Azure authentication
         public string AzureTenantId => GetOptionalEnvOrConfig("AZURE_TENANT_ID", "Azure:TenantId");
-        public string AzureClientId => GetOptionalEnvOrConfig("AZURE_CLIENT_ID", "Azure:ClientId");
         public string AzureOpenAIDeploymentName => GetRequiredEnvOrConfig("AZURE_OPENAI_DEPLOYMENT_NAME", "AzureOpenAI:DeploymentName", "gpt-4o");
         public string FrontendAppUrl => GetOptionalEnvOrConfig("FRONTEND_APP_URL", "FrontendAppUrl", "http://localhost:3000");
         public string AzureAISubscriptionId => GetRequiredEnvOrConfig("AZURE_AI_SUBSCRIPTION_ID", "AzureAI:SubscriptionId");

@@ -17,7 +17,6 @@ namespace AIAgent.API
 
         // Expose AppConfig properties as static for compatibility
         public static string AZURE_TENANT_ID => _appConfig.AzureTenantId;
-        public static string AZURE_CLIENT_ID => _appConfig.AzureClientId;
         public static string AZURE_OPENAI_DEPLOYMENT_NAME => _appConfig.AzureOpenAIDeploymentName;
         public static string AZURE_AI_SUBSCRIPTION_ID => _appConfig.AzureAISubscriptionId;
         public static string AZURE_AI_PROJECT_NAME => _appConfig.AzureAIProjectName;

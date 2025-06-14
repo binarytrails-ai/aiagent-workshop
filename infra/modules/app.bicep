@@ -4,6 +4,8 @@ param uniqueSuffixValue string
 param location string
 param tags object
 param foundryProjectEndpoint string
+param foundryProjectName string
+param openAIDeploymentName string
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: '${resourcePrefix}-plan-${uniqueSuffixValue}'
@@ -31,12 +33,28 @@ resource backendApp 'Microsoft.Web/sites@2022-03-01' = {
     siteConfig: {
       appSettings: [
         {
-          name: 'FrontendAppUrl'
+          name: 'FRONTEND_APP_URL'
           value: 'https://${frontendApp.name}.azurewebsites.net'
         }
         {
-          name: 'AzureAI__AgentProjectEndpoint'
+          name: 'AZURE_AI_PROJECT_ENDPOINT'
           value: foundryProjectEndpoint
+        }
+        {
+          name: 'AZURE_AI_PROJECT_NAME'
+          value: foundryProjectName
+        }
+        {
+          name: 'AZURE_OPENAI_DEPLOYMENT_NAME'
+          value: openAIDeploymentName
+        }
+        {
+          name: 'Azure__TenantId'
+          value: subscription().tenantId
+        }
+        {
+          name: 'Azure__SubscriptionId'
+          value: subscription().subscriptionId
         }
       ]
     }
@@ -59,16 +77,16 @@ resource frontendApp 'Microsoft.Web/sites@2022-03-01' = {
   }
 }
 
-// Role assignment for backend app system-assigned managed identity
-resource backendAppRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(backendApp.id, 'backend-role-azureai-developer')
-  scope: backendApp
-  properties: {
-    principalType: 'ServicePrincipal'
-    principalId: backendApp.identity.principalId
-    roleDefinitionId: '64702f94-c441-49e6-a78b-ef80e0188fee'
-  }
-}
+// // Role assignment for backend app system-assigned managed identity
+// resource backendAppRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+//   name: guid(backendApp.id, 'backend-role-azureai-developer')
+//   scope: resourceGroup()
+//   properties: {
+//     principalType: 'ServicePrincipal'
+//     principalId: backendApp.identity.principalId
+//     roleDefinitionId: '64702f94-c441-49e6-a78b-ef80e0188fee'
+//   }
+// }
 
 output BACKEND_APP_URL string = 'https://${backendApp.name}.azurewebsites.net'
 output FRONTEND_APP_URL string = 'https://${frontendApp.name}.azurewebsites.net'

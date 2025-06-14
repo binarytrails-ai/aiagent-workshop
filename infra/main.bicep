@@ -134,6 +134,8 @@ module app 'modules/app.bicep' = {
     location: location
     tags: tags
     foundryProjectEndpoint: aiProject.outputs.endpoint
+    foundryProjectName: aiProject.outputs.name
+    openAIDeploymentName: chatCompletionModel
   }
 }
 
