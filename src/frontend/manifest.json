@@ -1,0 +1,16 @@
+{
+    "name": "AI Agent App",
+    "short_name": "AI Agent",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "description": "A custom web app for AI Agent Workshop.",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        }
+    ]
+}

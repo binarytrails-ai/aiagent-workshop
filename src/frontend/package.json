@@ -1,0 +1,68 @@
+{
+  "name": "my-react-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo No test runner configured for Vite."
+  },
+  "dependencies": {
+    "@fluentui-copilot/react-copilot": "0.23.3",
+    "@fluentui-copilot/react-copilot-chat": "0.9.6",
+    "@fluentui-copilot/react-feedback-buttons": "0.9.6",
+    "@fluentui-copilot/react-provider": "0.9.4",
+    "@fluentui-copilot/react-reference": "0.13.10",
+    "@fluentui-copilot/react-sensitivity-label": "0.5.8",
+    "@fluentui/react-components": "9.60.0",
+    "@fluentui/react-icons": "2.0.279",
+    "@fluentui/react-theme": "9.1.24",
+    "ajv": "^8.0.0",
+    "ajv-keywords": "^5.0.0",
+    "clsx": "2.1.1",
+    "copy-to-clipboard": "^3.3.3",
+    "prismjs": "1.30.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-markdown": "10.1.0",
+    "react-syntax-highlighter": "^5.8.0",
+    "rehype-katex": "^7.0.0",
+    "rehype-raw": "^7.0.0",
+    "rehype-sanitize": "^6.0.0",
+    "rehype-stringify": "^10.0.0",
+    "remark-breaks": "^4.0.0",
+    "remark-gfm": "^4.0.0",
+    "remark-math": "^6.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-supersub": "^1.0.0",
+    "scheduler": "0.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.1",
+    "@types/react": "18.3.20",
+    "@types/react-dom": "18.3.5",
+    "@types/react-syntax-highlighter": "15.5.13",
+    "typescript": "5.1.6",
+    "vite": "^5.2.0",
+    "@vitejs/plugin-react": "^4.2.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
