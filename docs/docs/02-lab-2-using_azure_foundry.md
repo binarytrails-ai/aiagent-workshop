@@ -32,6 +32,13 @@ In this lab, you’ll learn how to build and extend the capabilities of your AI 
 
       You should see your account information.
 
+    - Create a new environment called `dev` and set it as the current environment:
+
+      ```powershell
+      azd env new dev
+      azd env select dev
+      ```
+
     - Set the Azure region for your resources (you can change `australiaeast` to your preferred region):
 
       ```powershell
