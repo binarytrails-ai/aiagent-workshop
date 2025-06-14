@@ -1,3 +1,70 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
 
 name: aiagent-workshop
+hooks:
+  preup:
+    posix:
+      shell: sh
+      run: chmod u+r+x ./scripts/validate_env_vars.sh; ./scripts/validate_env_vars.sh
+      interactive: true
+      continueOnError: false
+    windows:
+      shell: pwsh
+      run: ./scripts/validate_env_vars.ps1
+      interactive: true
+      continueOnError: false
+  # preprovision:
+  #   posix:
+  #     shell: sh
+  #     run: chmod u+r+x ./scripts/set_default_models.sh; chmod u+r+x ./scripts/resolve_model_quota.sh; ./scripts/set_default_models.sh
+  #     interactive: true
+  #     continueOnError: false
+  #   windows:
+  #     shell: pwsh
+  #     run: ./scripts/set_default_models.ps1
+  #     interactive: true
+  #     continueOnError: false
+  # postprovision:
+  #   windows:
+  #     shell: pwsh
+  #     run: ./scripts/write_env.ps1; ./scripts/setup_credential.ps1
+  #     continueOnError: true
+  #     interactive: true
+  #   posix:
+  #     shell: sh
+  #     run: chmod u+r+x ./scripts/write_env.sh; chmod u+r+x ./scripts/setup_credential.sh; ./scripts/write_env.sh; ./scripts/setup_credential.sh
+  #     continueOnError: true
+  #     interactive: true
+
+pipeline:
+  variables:
+services:
+  api:
+    project: ./src/backend
+    language: csharp
+    host: appservice
+  web:
+    project: ./src/frontend
+    dist: dist
+    language: ts
+    host: appservice
+    hooks:
+      # Creates a temporary `.env.local` file for the build command. Vite will automatically use it during build.
+      # The expected/required values are mapped to the infrastructure outputs.
+      # .env.local is ignored by git, so it will not be committed if, for any reason, if deployment fails.
+      # see: https://vitejs.dev/guide/env-and-mode
+      # Note: Notice that dotenv must be a project dependency for this to work. See package.json.
+      prepackage:
+        windows:
+          shell: pwsh
+          run: 'echo "VITE_API_BASE_URL=""$env:BACKEND_APP_URL""" > .env.local ; echo "VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=""$env:AZURE_APP_INSIGHTS_CONNECTION_STRING""" >> .env.local'
+        posix:
+          shell: sh
+          run: 'echo VITE_API_BASE_URL=\"$BACKEND_APP_URL\" > .env.local && echo VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=\"$AZURE_APP_INSIGHTS_CONNECTION_STRING\" >> .env.local'    
+      postdeploy:
+        windows:
+          shell: pwsh
+          run: 'rm .env.local'
+        posix:
+          shell: sh
+          run: 'rm .env.local'

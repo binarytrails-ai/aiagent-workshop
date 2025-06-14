@@ -53,3 +53,4 @@ Happy coding!
 
 - [Semantic Kernel Documentation](https://learn.microsoft.com/semantic-kernel/)
 - [GitHub Models Documentation](https://docs.github.com/en/github-models/use-github-models)
+- [Upgrade from GitHub Models to Azure AI Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/model-inference/how-to/quickstart-github-models?tabs=python)
