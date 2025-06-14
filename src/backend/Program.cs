@@ -14,6 +14,18 @@ builder.Services.AddSwaggerGen(c =>
 // Register AppConfig as a singleton
 builder.Services.AddSingleton<AppConfig>(sp => new AppConfig(sp.GetRequiredService<IConfiguration>()));
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy => policy
+            .WithOrigins("https://aiagentwks-web-mbo43n.azurewebsites.net")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+    );
+});
+
 var app = builder.Build();
 
 // Initialize static Config wrapper for compatibility
@@ -28,6 +40,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+// Use CORS before controllers
+app.UseCors("AllowFrontend");
 
 app.MapControllers();
 
