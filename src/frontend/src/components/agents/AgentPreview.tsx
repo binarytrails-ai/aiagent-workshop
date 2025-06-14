@@ -154,6 +154,7 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message }),
+          credentials: "include",
         });
         setIsResponding(false);
         loadChatHistory();
@@ -164,6 +165,7 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message }),
+          credentials: "include",
         });
         setIsResponding(false);
         loadChatHistory();
@@ -171,6 +173,7 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
       onDelete: async (id: string) => {
         await fetch(`${API_BASE_URL}/api/chat/delete/${id}`, {
           method: "DELETE",
+          credentials: "include",
         });
         loadChatHistory();
       },
