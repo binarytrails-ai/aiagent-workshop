@@ -133,6 +133,7 @@ module app 'modules/app.bicep' = {
     uniqueSuffixValue: uniqueSuffixValue
     location: location
     tags: tags
+    foundryProjectEndpoint: aiProject.outputs.endpoint
   }
 }
 

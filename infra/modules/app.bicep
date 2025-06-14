@@ -3,6 +3,7 @@ param resourcePrefix string
 param uniqueSuffixValue string
 param location string
 param tags object
+param foundryProjectEndpoint string
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: '${resourcePrefix}-plan-${uniqueSuffixValue}'
@@ -29,6 +30,10 @@ resource backendApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'FRONTEND_APP_URL'
           value: 'https://${frontendApp.name}.azurewebsites.net'
+        }
+        {
+          name: 'AZURE_AI_PROJECT_ENDPOINT'
+          value: foundryProjectEndpoint
         }
       ]
     }
