@@ -16,11 +16,10 @@ namespace AIAgent.API
         public string AzureTenantId => GetOptionalEnvOrConfig("AZURE_TENANT_ID", "Azure:TenantId");
         public string AzureClientId => GetOptionalEnvOrConfig("AZURE_CLIENT_ID", "Azure:ClientId");
         public string AzureOpenAIDeploymentName => GetRequiredEnvOrConfig("AZURE_OPENAI_DEPLOYMENT_NAME", "AzureOpenAI:DeploymentName", "gpt-4o");
-        public string FrontendSiteName => GetOptionalEnvOrConfig("FRONTEND_SITE_NAME", "Frontend:SiteName", "http://127.0.0.1:3000");
-
+        public string FrontendAppUrl => GetOptionalEnvOrConfig("FRONTEND_APP_URL", "FrontendAppUrl", "http://localhost:3000");
         public string AzureAISubscriptionId => GetRequiredEnvOrConfig("AZURE_AI_SUBSCRIPTION_ID", "AzureAI:SubscriptionId");
         public string AzureAIProjectName => GetRequiredEnvOrConfig("AZURE_AI_PROJECT_NAME", "AzureAI:ProjectName");
-        public string AzureAIAgentProjectConnectionString => GetRequiredEnvOrConfig("AZURE_AI_AGENT_PROJECT_CONNECTION_STRING", "AzureAI:AgentProjectConnectionString");
+        public string AzureAIAgentProjectEndpoint => GetRequiredEnvOrConfig("AZURE_AI_PROJECT_ENDPOINT", "AzureAI:AgentProjectEndpoint");
 
         private string GetRequiredEnvOrConfig(string envVar, string configKey, string defaultValue = null)
         {

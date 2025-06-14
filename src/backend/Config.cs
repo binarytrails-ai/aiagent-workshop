@@ -1,5 +1,3 @@
-using Microsoft.Azure.Cosmos;
-
 namespace AIAgent.API
 {
     /// <summary>
@@ -23,7 +21,7 @@ namespace AIAgent.API
         public static string AZURE_OPENAI_DEPLOYMENT_NAME => _appConfig.AzureOpenAIDeploymentName;
         public static string AZURE_AI_SUBSCRIPTION_ID => _appConfig.AzureAISubscriptionId;
         public static string AZURE_AI_PROJECT_NAME => _appConfig.AzureAIProjectName;
-        public static string AZURE_AI_AGENT_PROJECT_CONNECTION_STRING => _appConfig.AzureAIAgentProjectConnectionString;
-
+        public static string AZURE_AI_PROJECT_ENDPOINT => _appConfig.AzureAIAgentProjectEndpoint;
+        public static string FRONTEND_APP_URL => _appConfig.FrontendAppUrl;
     }
 }

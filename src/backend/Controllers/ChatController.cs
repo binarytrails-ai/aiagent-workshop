@@ -17,7 +17,7 @@ namespace AIAgent.API.Controllers
 
         public ChatController()
         {
-            var projectEndpoint = "https://aif-mbo43n.services.ai.azure.com/api/projects/aif-proj-mbo43n";
+            var projectEndpoint = Config.AZURE_AI_PROJECT_ENDPOINT;
             _projectClient = AzureAIAgent.CreateAgentsClient(projectEndpoint, new DefaultAzureCredential());
         }
 
@@ -57,7 +57,6 @@ namespace AIAgent.API.Controllers
                 {
                     if (content is MessageTextContent)
                     {
-
                         messages.Add(new ChatMessageHistory
                         {
                             Role = msg.Role == Azure.AI.Agents.Persistent.MessageRole.User ? "user" : "assistant",
@@ -104,7 +103,7 @@ namespace AIAgent.API.Controllers
         private async Task<AzureAIAgent> GetOrCreateAgentAsync(string agentId)
         {
             PersistentAgent agentDefinition = null;
-            var modelId = "gpt-4o";
+            var modelId = Config.AZURE_OPENAI_DEPLOYMENT_NAME;
             var agentInstructions = """
             You are a helpful assistant for Contoso Bike Store. Use the BikeInventoryPlugin to answer questions about bike availability and features.
             If the user asks for a bike that is not in stock, inform them politely.
