@@ -27,20 +27,20 @@ param logAnalyticsWorkspaceName string
 @description('Name of the Application Insights resource')
 param appInsightsName string
 
-resource aiSearch 'Microsoft.Search/searchServices@2023-11-01' = {
-  name: aiSearchName
-  location: location
-  sku: {
-    name: 'basic'
-  }
-  properties: {
-    hostingMode: 'default'
-    partitionCount: 1
-    replicaCount: 1
-    publicNetworkAccess: 'enabled'
-  }
-  tags: tags
-}
+// resource aiSearch 'Microsoft.Search/searchServices@2023-11-01' = {
+//   name: aiSearchName
+//   location: location
+//   sku: {
+//     name: 'basic'
+//   }
+//   properties: {
+//     hostingMode: 'default'
+//     partitionCount: 1
+//     replicaCount: 1
+//     publicNetworkAccess: 'enabled'
+//   }
+//   tags: tags
+// }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: storageAccountName
@@ -133,9 +133,9 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
-output aiSearchResourceId string = aiSearch.id
-output aiSearchName string = aiSearch.name
-output aiSearchEndpoint string = 'https://${aiSearch.name}.search.windows.net/'
+// output aiSearchResourceId string = aiSearch.id
+// output aiSearchName string = aiSearch.name
+// output aiSearchEndpoint string = 'https://${aiSearch.name}.search.windows.net/'
 output storageAccountId string = storageAccount.id
 output storageAccountName string = storageAccount.name
 output keyVaultId string = keyVault.id

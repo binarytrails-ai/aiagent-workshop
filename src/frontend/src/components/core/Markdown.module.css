@@ -1,0 +1,43 @@
+/* ...existing code from frontend/src/components/core/Markdown.module.css... */
+.markdown {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--colorNeutralForeground1);
+}
+.markdown p {
+  margin-bottom: 16px;
+}
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.markdown h1 {
+  font-size: 2em;
+}
+.markdown h2 {
+  font-size: 1.5em;
+}
+.markdown h3 {
+  font-size: 1.25em;
+}
+.markdown ul,
+.markdown ol {
+  padding-left: 2em;
+  margin-bottom: 16px;
+}
+.markdown li {
+  margin-bottom: 4px;
+}
+.markdown blockquote {
+  padding: 0 1em;
+  color: var(--colorNeutralForeground2);
+  border-left: 4px solid var(--colorNeutralStroke2);
+  margin: 0 0 16px;
+}

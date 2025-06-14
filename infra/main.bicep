@@ -124,6 +124,18 @@ module aiDependencies 'modules/ai-services.bicep' = {
   }
 }
 
+// Add App Service Plan
+module app 'modules/app.bicep' = {
+  scope: rg
+  name: 'app-${uniqueSuffixValue}'
+  params: {
+    resourcePrefix: resourcePrefix
+    uniqueSuffixValue: uniqueSuffixValue
+    location: location
+    tags: tags
+  }
+}
+
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
 output AZURE_SUBSCRIPTION_ID string = subscription().subscriptionId
@@ -133,15 +145,5 @@ output AZURE_STORAGE_ACCOUNT string = resourceNames.storageAccount
 output AZURE_AI_PROJECT_NAME string = aiProject.outputs.name
 output AZURE_AI_PROJECT_ENDPOINT string = aiProject.outputs.endpoint
 
-// // AI Services outputs
-// output AZURE_AI_SERVICE_ENDPOINT string = aiDependencies.outputs.openAiServiceEndpoint
-// output AZURE_AI_SERVICE_DOMAIN_NAME string = aiDependencies.outputs.openAiServiceDomain
-
-// output AZURE_OPENAI_ENDPOINT string = 'https://${aiDependencies.outputs.openAiServiceDomain}.openai.azure.com/'
-output AZURE_SEARCH_SERVICE_NAME string = shared.outputs.aiSearchName
-output AZURE_SEARCH_SERVICE_ENDPOINT string = shared.outputs.aiSearchEndpoint
-
-// Add outputs for Log Analytics and App Insights 
-output AZURE_LOG_ANALYTICS_WORKSPACE_NAME string = shared.outputs.logAnalyticsWorkspaceName
-output AZURE_APP_INSIGHTS_INSTRUMENTATION_KEY string = shared.outputs.appInsightsInstrumentationKey
-output AZURE_APP_INSIGHTS_CONNECTION_STRING string = shared.outputs.appInsightsConnectionString
+output BACKEND_APP_URL string = app.outputs.BACKEND_APP_URL
+output FRONTEND_APP_URL string = app.outputs.FRONTEND_APP_URL

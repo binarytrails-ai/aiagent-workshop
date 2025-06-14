@@ -1,0 +1,12 @@
+/* ...existing code from frontend/src/components/core/SettingsPanel.module.css... */
+.panel {
+  width: 320px;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.settingsButton {
+  margin: 8px;
+}

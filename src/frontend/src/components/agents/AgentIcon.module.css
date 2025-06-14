@@ -1,0 +1,12 @@
+/* ...existing code from frontend/src/components/agents/AgentIcon.module.css... */
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}

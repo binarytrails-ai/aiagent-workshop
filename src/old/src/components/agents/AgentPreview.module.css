@@ -1,0 +1,109 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background-color: var(--colorNeutralBackground1);
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--colorNeutralStroke1);
+  background-color: var(--colorNeutralBackground2);
+}
+
+.leftSection, .rightSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.agentIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+}
+
+.emptyStateAgentIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+}
+
+.agentName {
+  font-weight: 600;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  box-sizing: border-box;
+  width: 50%;
+  margin: 5px auto;
+}
+
+.menuButtonContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.emptyChatContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+
+  padding: 24px;
+
+  text-align: center;
+}
+
+.menuButton {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--colorNeutralBackground1);
+  border: 1px solid var(--colorNeutralStroke1);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 200px;
+  display: none;
+}
+
+.menuButtonContainer:hover .menu,
+.menuButton:focus-within .menu {
+  display: block;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.menuItem:hover {
+  background-color: var(--colorNeutralBackground2);
+}
+
+.externalLink {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}

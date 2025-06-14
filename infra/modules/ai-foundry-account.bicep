@@ -22,6 +22,7 @@ resource aiFoundry 'Microsoft.CognitiveServices/accounts@2025-04-01-preview' = {
     allowProjectManagement: true
     customSubDomainName: name
     disableLocalAuth: false
+    publicNetworkAccess: 'Enabled'
   }
 }
 
