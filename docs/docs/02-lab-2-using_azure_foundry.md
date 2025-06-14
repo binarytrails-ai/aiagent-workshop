@@ -46,7 +46,7 @@ In this lab, you’ll learn how to build and extend the capabilities of your AI 
 
       This command will provision all the necessary Azure resources required for this lab. You can browse the resources in the Azure portal once the deployment is complete.
 
-3. You will be connecting to these resources when running the code in this lab. 
+3. You will be connecting to these resources when running the code in this lab.
 
     After deployment, copy all environment variables from `.azure/dev/.env` into the `.env` file in the root of your code repository.
 
