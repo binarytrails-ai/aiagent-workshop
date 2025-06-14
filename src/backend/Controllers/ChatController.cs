@@ -27,7 +27,6 @@ namespace AIAgent.API.Controllers
         {
             var agentInfo = new
             {
-                Id = "agent-001",
                 Name = ContosoInventoryAgentName,
                 Description = "This agent assists with bike inventory inquiries at Contoso Bike Store."
             };
@@ -51,11 +50,24 @@ namespace AIAgent.API.Controllers
                 return Ok(new List<object>()); // No history for this thread
 
             var agentThread = new AzureAIAgentThread(_projectClient, persistentThread.Value.Id);
-            var messages = new List<object>();
+            var messages = new List<ChatMessageHistory>();
             await foreach (var msg in _projectClient.Messages.GetMessagesAsync(agentThread.Id))
             {
-                //messages.Add(new { msg.Id, msg.Content, msg.AuthorRole, msg.Timestamp });
+                foreach (var content in msg.ContentItems)
+                {
+                    if (content is MessageTextContent)
+                    {
+
+                        messages.Add(new ChatMessageHistory
+                        {
+                            Role = msg.Role == Azure.AI.Agents.Persistent.MessageRole.User ? "user" : "assistant",
+                            Content = (content as MessageTextContent).Text,
+                            CreatedAt = msg.CreatedAt.ToString("o") // ISO 8601 format
+                        });
+                    }
+                }
             }
+
             return Ok(messages);
         }
 
