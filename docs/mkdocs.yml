@@ -15,9 +15,7 @@ nav:
       - 2.1 Code-First Agent: 02-lab-2.1-code_first_agent.md
       - 2.2 Working with Tools: 02-lab-2.2-using_tools.md
       - 2.3 Multi-Agent Orchestration: 02-lab-2.3-multi_agents.md
-  - "LAB 3: Building an AI Application":
-      - Getting Started: 03-lab-3-deploying_ai_application.md
-      - Architecture: 03-lab-3.1-ai_application_architecture.md
+  - "LAB 3: Building an AI Application": 03-lab-3.1-ai_application_architecture.md
   - "Finishing Up": finishing-up.md
   - Learning Resources: resources.md
 

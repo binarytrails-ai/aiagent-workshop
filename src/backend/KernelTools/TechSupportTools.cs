@@ -76,12 +76,6 @@ namespace AIAgent.API.KernelTools
         }
 
         [KernelFunction]
-        public Task<string> CollaborateCodeDeployment(string projectName)
-        {
-            return Task.FromResult($"##### Code Deployment Collaboration\n**Project Name:** {projectName}\n\nCollaboration on the deployment of project '{projectName}' has been successfully completed.\n{FormattingInstructions}");
-        }
-
-        [KernelFunction]
         public Task<string> AssistMarketingTech(string campaignName)
         {
             return Task.FromResult($"##### Tech Support for Marketing Campaign\n**Campaign Name:** {campaignName}\n\nTechnical support has been successfully provided for the marketing campaign '{campaignName}'.\n{FormattingInstructions}");
