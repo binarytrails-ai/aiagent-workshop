@@ -9,7 +9,7 @@
 
         public override string GetAgentDisplayName()
         {
-            return "Techmical Support Agent";
+            return "Technical Support Agent";
         }
 
         public override string GetAgentDescription()

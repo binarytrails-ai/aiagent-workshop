@@ -10,7 +10,7 @@ const App: React.FC = () => {
     object: "agent",
     created_at: Date.now(),
     name: "Loading...",
-    displayName: "agent",
+    displayName: "",
     description: "Loading agent details...",
     model: "default",
     metadata: {
