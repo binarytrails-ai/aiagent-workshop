@@ -22,6 +22,7 @@ $azureSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
 $azureTenantId = $env:AZURE_TENANT_ID
 $frontendAppUrl = $env:FRONTEND_APP_URL
 $openAIDeploymentName = $env:AZURE_OPENAI_DEPLOYMENT_NAME
+$backendAppUrl = $env:BACKEND_APP_URL
 
 Add-Content -Path $envFilePath -Value "AZURE_ENV_NAME=$azureEnvName"
 Add-Content -Path $envFilePath -Value "AZURE_AI_PROJECT_ENDPOINT=$azureAIProjectEndpoint"
@@ -38,7 +39,8 @@ Add-Content -Path $envFilePath -Value "AZURE_STORAGE_ACCOUNT=$azureStorageAccoun
 Add-Content -Path $envFilePath -Value "AZURE_SUBSCRIPTION_ID=$azureSubscriptionId"
 Add-Content -Path $envFilePath -Value "AZURE_TENANT_ID=$azureTenantId"
 Add-Content -Path $envFilePath -Value "FRONTEND_APP_URL=$frontendAppUrl"
-Add-Content -Path $envFilePath -Value "AZURE_OPENAI_DEPLOYMENT_NAME"
+Add-Content -Path $envFilePath -Value "AZURE_OPENAI_DEPLOYMENT_NAME=$openAIDeploymentName"
+Add-Content -Path $envFilePath -Value "BACKEND_APP_URL=$backendAppUrl"
 
 # Write-Host "🌐 Please visit web app URL:"
 # Write-Host $serviceAPIUri -ForegroundColor Cyan

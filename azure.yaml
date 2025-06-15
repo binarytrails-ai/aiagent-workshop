@@ -24,17 +24,17 @@ hooks:
   #     run: ./scripts/set_default_models.ps1
   #     interactive: true
   #     continueOnError: false
-  # postprovision:
-  #   windows:
-  #     shell: pwsh
-  #     run: ./scripts/write_env.ps1; ./scripts/setup_credential.ps1
-  #     continueOnError: true
-  #     interactive: true
-  #   posix:
-  #     shell: sh
-  #     run: chmod u+r+x ./scripts/write_env.sh; chmod u+r+x ./scripts/setup_credential.sh; ./scripts/write_env.sh; ./scripts/setup_credential.sh
-  #     continueOnError: true
-  #     interactive: true
+  postprovision:
+    windows:
+      shell: pwsh
+      run: ./scripts/write_env.ps1; ./scripts/setup_credential.ps1
+      continueOnError: true
+      interactive: true
+    posix:
+      shell: sh
+      run: chmod u+r+x ./scripts/write_env.sh; chmod u+r+x ./scripts/setup_credential.sh; ./scripts/write_env.sh; ./scripts/setup_credential.sh
+      continueOnError: true
+      interactive: true
 
 pipeline:
   variables:
