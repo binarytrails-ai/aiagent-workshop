@@ -21,9 +21,3 @@
 - [AI Agents Hackathon 2025 Resources](https://microsoft.github.io/AI_Agents_Hackathon/){:target="_blank"}
 
 ---
-
-## Feedback
-
-Thank you for participating in this workshop!
-
-If you have suggestions or encountered issues, please [open a GitHub Issue](https://github.com/binarytrails-ai/aiagent-workshop/issues){:target="_blank"} to help us improve.

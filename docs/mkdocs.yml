@@ -19,6 +19,7 @@ nav:
   - "LAB 3: Building an AI Application": 03-lab-3.1-ai_application_architecture.md
   - "Finishing Up": finishing-up.md
   - Learning Resources: resources.md
+  - Feedback: feedback.md
 
 plugins:
   - glightbox
