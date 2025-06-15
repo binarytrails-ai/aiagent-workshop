@@ -1,3 +1,4 @@
+using AIAgent.API.Agents;
 using AIAgent.API.KernelTools;
 using AIAgent.API.Models;
 using Azure.AI.Agents.Persistent;
@@ -13,7 +14,7 @@ namespace AIAgent.API.Controllers
     public class ChatController : ControllerBase
     {
         private readonly PersistentAgentsClient _projectClient;
-        private const string TechSupportAgentName = "TechSupportAgent";
+        private TechSupportAgentConfig _techSupportAgentConfig = new TechSupportAgentConfig();
 
         public ChatController()
         {
@@ -27,12 +28,9 @@ namespace AIAgent.API.Controllers
         {
             var agentInfo = new
             {
-                Name = TechSupportAgentName,
-                Description = """
-                This agent provides IT and technical support for the company. 
-                It assists users with troubleshooting, technical queries, and problem resolution. 
-                The agent utilizes the `TechSupportTools` to effectively address and resolve technical issues.
-                """
+                Name = _techSupportAgentConfig.AgentName,
+                DisplayName = _techSupportAgentConfig.GetAgentDisplayName(),
+                Description = _techSupportAgentConfig.GetAgentDescription(),
             };
             return Ok(agentInfo);
         }
@@ -63,18 +61,12 @@ namespace AIAgent.API.Controllers
             return Ok(response);
         }
 
-
         private async Task<AzureAIAgent> GetOrCreateAgentAsync(string? agentId)
         {
             PersistentAgent agentDefinition = null;
             var modelId = Config.AZURE_OPENAI_DEPLOYMENT_NAME;
-            var agentInstructions = """
-            You are a helpful technical support assistant for the company. Your primary responsibility is to assist users with IT support and technical queries.
-            Always use the `TechSupportTools` tool to help resolve technical issues when appropriate.
-            If a user asks for information or assistance outside of technical support, politely decline and encourage them to ask about IT support or technical matters.
-            If you are unable to assist with a request, respond courteously and let the user know you can only help with technical support issues.
-            Be clear, concise, and professional in all your responses.
-            """;
+            var agentInstructions = _techSupportAgentConfig.GetAgentSystemMessage();
+            var agentName = _techSupportAgentConfig.AgentName;
 
             if (!string.IsNullOrEmpty(agentId))
             {
@@ -92,7 +84,7 @@ namespace AIAgent.API.Controllers
             {
                 await foreach (var agentDefn in _projectClient.Administration.GetAgentsAsync())
                 {
-                    if (agentDefn.Name == TechSupportAgentName)
+                    if (agentDefn.Name == agentName)
                         agentDefinition = agentDefn;
                 }
             }
@@ -101,7 +93,7 @@ namespace AIAgent.API.Controllers
             {
                 agentDefinition = await _projectClient.Administration.CreateAgentAsync(
                   modelId,
-                  name: TechSupportAgentName,
+                  name: agentName,
                   instructions: agentInstructions,
                   tools: [],
                   toolResources: null);

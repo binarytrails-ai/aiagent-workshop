@@ -15,6 +15,7 @@ interface IAgent {
   object: string;
   created_at: number;
   name: string;
+  displayName?: string;
   description?: string | null;
   model: string;
   instructions?: string;
@@ -241,7 +242,7 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
       <div className={styles.topBar}>
         <div className={styles.leftSection}>
           <AgentIcon iconName={agentDetails.name} alt={agentDetails.name} />
-          <span className={styles.agentName}>{agentDetails.name}</span>
+          <span className={styles.agentName}>{agentDetails.displayName}</span>
         </div>
         <div className={styles.rightSection}>
           <Button
@@ -275,7 +276,7 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
                   iconName={agentDetails.metadata?.logo}
                 />
 
-                {agentDetails.name && <div>{agentDetails.name}</div>}
+                {agentDetails.displayName && <div>{agentDetails.displayName}</div>}
 
                 <br />
                 <div>

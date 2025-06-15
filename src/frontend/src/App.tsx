@@ -10,6 +10,7 @@ const App: React.FC = () => {
     object: "agent",
     created_at: Date.now(),
     name: "Loading...",
+    displayName: "agent",
     description: "Loading agent details...",
     model: "default",
     metadata: {
@@ -37,6 +38,7 @@ const App: React.FC = () => {
             object: "agent",
             created_at: Date.now(),
             name: "AI Agent",
+            displayName: "AI Agent",
             description: "Could not load agent details",
             model: "default",
             metadata: {
@@ -50,6 +52,7 @@ const App: React.FC = () => {
           object: "agent",
           created_at: Date.now(),
           name: "AI Agent",
+          displayName: "AI Agent",
           description: "Error loading agent details",
           model: "default",
           metadata: {
