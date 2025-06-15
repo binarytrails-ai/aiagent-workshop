@@ -82,7 +82,7 @@ Happy coding!
 
     ```powershell
 
-    az auth login --use-device-code
+    az login --use-device-code
     ```
 
 ---

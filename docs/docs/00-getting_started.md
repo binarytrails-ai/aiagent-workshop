@@ -49,7 +49,9 @@ Anyone interested in building intelligent, goal-oriented agents—developers, da
 ## Setting up your environment ⬇️
 
 1. From your browser, navigate to the [aiagent-workshop](https://github.com/binarytrails-ai/aiagent-workshop) repository on GitHub. This repository has all the code and resources for the workshop.
-1. Fork this repository to your own GitHub account.
+1. Fork this repository to your own GitHub account. </br>
+   [![Fork on GitHub](https://img.shields.io/badge/Fork%20Repo-blue?logo=github&style=for-the-badge)](https://github.com/binarytrails-ai/aiagent-workshop/fork){:target="_blank"} 
+
 1. The recommended way to work through this workshop is with GitHub Codespaces, which provides a ready-to-use environment with all required tools. </br>Alternatively, you can use a Visual Studio Code Dev Container to run the workshop locally.</br></br>
 **Using GitHub Codespaces**: Click the button below to launch the project in GitHub Codespaces. The Codespace will be pre-configured with all the necessary dependencies and tools to run the labs.
 

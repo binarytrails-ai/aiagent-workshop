@@ -152,3 +152,4 @@ output BACKEND_APP_URL string = app.outputs.BACKEND_APP_URL
 output FRONTEND_APP_URL string = app.outputs.FRONTEND_APP_URL
 
 output AZURE_OPENAI_DEPLOYMENT_NAME string = chatCompletionModel
+output TEXT_MODEL_NAME string = chatCompletionModel //TODO: to be removed when the notebook is updated
