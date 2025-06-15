@@ -24,13 +24,12 @@ In this lab, you’ll learn how to build and extend the capabilities of your AI 
         azd auth login --use-device-code
       ```
 
-    - Verify you’re logged in:
-
+      <!-- - Verify you’re logged in:
       ```powershell
       azd auth show
       ```
-
-      You should see your account information.
+       You should see your account information.
+       =-->
 
     - Create a new environment called `dev` and set it as the current environment:
 
@@ -67,7 +66,19 @@ In this lab, you’ll learn how to build and extend the capabilities of your AI 
 ## Let's get started 👩‍💻🤖
 
 You’re now ready to start building AI agents using Azure AI Foundry Agent Service!
+
 Follow the instructions in this lab to create your own AI agents.
+
+!!! Info
+    The samples uses `DefaultAzureCredential` to authenticate with Azure services.
+    This would check for environment variables, managed identity, or Azure CLI credentials to authenticate. 
+    
+    When running from VS Code, ensure you have the logged-in Azure account by running:
+
+    ```powershell
+
+    az auth login --use-device-code
+    ```
 
 ---
 
@@ -76,4 +87,5 @@ Follow the instructions in this lab to create your own AI agents.
 - [Azure AI Hub Documentation](https://learn.microsoft.com/azure/ai-hub/)
 - [Azure Foundry Project Documentation](https://learn.microsoft.com/azure/ai-foundry/)
 - [Azure AI Foundry Agent Service Documentation](https://learn.microsoft.com/en-us/azure/ai-services/agents/overview)
+-[Get started with Foundry Local](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-local/get-started)
 - [Azure Developer CLI Documentation](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
