@@ -50,7 +50,7 @@ else if (Environment.GetEnvironmentVariable("USE_GITHUB") == "true")
     client = new OpenAIClient(new ApiKeyCredential(apiKey), new OpenAIClientOptions { Endpoint = new Uri(uri) });
 }
 
-var modelId = Environment.GetEnvironmentVariable("MODEL");
+var modelId = Environment.GetEnvironmentVariable("TEXT_MODEL_NAME");
 var builder = Kernel.CreateBuilder();
 builder.AddOpenAIChatCompletion(modelId, client);
 

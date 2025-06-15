@@ -39,7 +39,7 @@ Add-Content -Path $envFilePath -Value "AZURE_STORAGE_ACCOUNT=$azureStorageAccoun
 Add-Content -Path $envFilePath -Value "AZURE_SUBSCRIPTION_ID=$azureSubscriptionId"
 Add-Content -Path $envFilePath -Value "AZURE_TENANT_ID=$azureTenantId"
 Add-Content -Path $envFilePath -Value "FRONTEND_APP_URL=$frontendAppUrl"
-Add-Content -Path $envFilePath -Value "AZURE_OPENAI_DEPLOYMENT_NAME=$openAIDeploymentName"
+Add-Content -Path $envFilePath -Value "TEXT_MODEL_NAME=$openAIDeploymentName"
 Add-Content -Path $envFilePath -Value "BACKEND_APP_URL=$backendAppUrl"
 
 # Write-Host "🌐 Please visit web app URL:"
