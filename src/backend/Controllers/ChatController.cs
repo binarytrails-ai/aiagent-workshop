@@ -39,11 +39,8 @@ namespace AIAgent.API.Controllers
 
         // GET /chat/history
         [HttpGet("chat/history")]
-        public async Task<IActionResult> History()
+        public async Task<IActionResult> History([FromQuery] string? agentId, [FromQuery] string? threadId)
         {
-            var threadId = Request.Cookies["thread_id"];
-            var agentId = Request.Cookies["agent_id"];
-
             if (string.IsNullOrEmpty(threadId))
                 return Ok(new List<ChatMessageHistory>()); // No history for this thread
 
@@ -51,27 +48,23 @@ namespace AIAgent.API.Controllers
             return Ok(messages);
         }
 
-        // POST /chat/send
         [HttpPost("chat/send")]
         public async Task<IActionResult> ChatSend([FromBody] ChatRequest request)
         {
-            var threadId = Request.Cookies["thread_id"];
-            var agentId = Request.Cookies["agent_id"];
-
-            var agent = await GetOrCreateAgentAsync(agentId);
-            var agentThread = await ChatUtils.GetOrCreateAgentThreadAsync(threadId, _projectClient);
-
+            var agent = await GetOrCreateAgentAsync(request.AgentId);
+            var agentThread = await ChatUtils.GetOrCreateAgentThreadAsync(request.ThreadId, _projectClient);
             await ChatUtils.InvokeAgent(request.Message, agent, agentThread);
+            var response = new ChatCompletionResponse
+            {
+                AgentId = agent.Id,
+                ThreadId = agentThread.Id ?? string.Empty
+            };
 
-            // Set cookies for thread and agent IDs
-            Response.Cookies.Append("thread_id", agentThread.Id);
-            Response.Cookies.Append("agent_id", agent.Id);
-
-            return Ok();
+            return Ok(response);
         }
 
 
-        private async Task<AzureAIAgent> GetOrCreateAgentAsync(string agentId)
+        private async Task<AzureAIAgent> GetOrCreateAgentAsync(string? agentId)
         {
             PersistentAgent agentDefinition = null;
             var modelId = Config.AZURE_OPENAI_DEPLOYMENT_NAME;

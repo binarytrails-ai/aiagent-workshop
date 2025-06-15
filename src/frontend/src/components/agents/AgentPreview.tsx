@@ -82,6 +82,22 @@ interface ImportMeta {
 
 const apiBase: string = import.meta.env.VITE_API_BASE_URL;
 
+const CHAT_SESSION_KEY = "chat_session_info";
+
+const saveChatSession = (agentId: string, threadId: string) => {
+  localStorage.setItem(CHAT_SESSION_KEY, JSON.stringify({ agentId, threadId }));
+};
+
+const getChatSession = () => {
+  const data = localStorage.getItem(CHAT_SESSION_KEY);
+  if (!data) return null;
+  try {
+    return JSON.parse(data);
+  } catch {
+    return null;
+  }
+};
+
 export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
   const [messageList, setMessageList] = useState<IChatItem[]>([]);
   const [isResponding, setIsResponding] = useState(false);
@@ -92,20 +108,19 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
     // Optionally, call an API endpoint to start a new thread if your backend supports it
     setMessageList([]);
     setIsLoadingChatHistory(false);
-    // Clear cookies related to chat (client-side only)
-    // This will only work for cookies accessible via JS (not HttpOnly)
-    document.cookie.split(";").forEach((c) => {
-      const cookieName = c.split("=")[0].trim();
-      // Optionally, filter for specific chat-related cookies
-      // if (cookieName.startsWith('chat_')) {
-      document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
-      // }
-    });
+    localStorage.removeItem(CHAT_SESSION_KEY);
   }, []);
 
   const loadChatHistory = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/chat/history`, {
+      const session = getChatSession();
+      let url = `${API_BASE_URL}/api/chat/history`;
+      if (session && session.agentId && session.threadId) {
+        url = `${API_BASE_URL}/api/chat/history?agentId=${encodeURIComponent(
+          session.agentId
+        )}&threadId=${encodeURIComponent(session.threadId)}`;
+      }
+      const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -166,23 +181,47 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
       isResponding,
       onSend: async (message: string) => {
         setIsResponding(true);
-        await fetch(`${API_BASE_URL}/api/chat/send`, {
+
+        const session = getChatSession();
+
+        const response = await fetch(`${API_BASE_URL}/api/chat/send`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message }),
+          body: JSON.stringify({
+            message: message,
+            agentId: session?.agentId,
+            threadId: session?.threadId,
+          }),
           credentials: "include",
         });
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.agentId && data.threadId) {
+            saveChatSession(data.agentId, data.threadId);
+          }
+        }
         setIsResponding(false);
         loadChatHistory();
       },
       onSubmit: async (message: string) => {
         setIsResponding(true);
-        await fetch(`${API_BASE_URL}/api/chat/send`, {
+        const session = getChatSession();
+        const response = await fetch(`${API_BASE_URL}/api/chat/send`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message }),
+          body: JSON.stringify({
+            message: message,
+            agentId: session?.agentId,
+            threadId: session?.threadId,
+          }),
           credentials: "include",
         });
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.agentId && data.threadId) {
+            saveChatSession(data.agentId, data.threadId);
+          }
+        }
         setIsResponding(false);
         loadChatHistory();
       },
