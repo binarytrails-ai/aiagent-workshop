@@ -67,7 +67,12 @@ In this lab, you’ll learn how to build and extend the capabilities of your AI 
 
 You’re now ready to start building AI agents using Azure AI Foundry Agent Service!
 
-Follow the instructions in this lab to create your own AI agents.
+Start your first exercise for this lab here:
+
+👉 **[LAB 2.1 : Code First Agent in Azure AI Foundry Agent Service](./02-lab-2.1-code_first_agent.md)**
+
+Happy coding!
+
 
 !!! Info
     The samples uses `DefaultAzureCredential` to authenticate with Azure services.
