@@ -259,13 +259,36 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
         ) : (
           <>
             {messageList.length === 0 && (
-              <div className={styles.emptyChatContainer}>
+              <div
+                className={styles.emptyChatContainer}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
                 <AgentIcon
                   alt=""
                   iconClassName={styles.emptyStateAgentIcon}
                   iconName={agentDetails.metadata?.logo}
                 />
-                <Title2>How can I help you today?</Title2>
+
+                {agentDetails.name && <div>{agentDetails.name}</div>}
+
+                <br />
+                <div>
+                  {agentDetails.description && (
+                    <Caption1 className={styles.emptyStateDescription}>
+                      {agentDetails.description}
+                    </Caption1>
+                  )}
+                </div>
+
+                <Title2 as="h2" className={styles.emptyStateTitle}>
+                  How can I help you today?
+                </Title2>
               </div>
             )}
             <AgentPreviewChatBot
