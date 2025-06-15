@@ -23,3 +23,11 @@ This workshop is designed to help you build AI agents using Semantic Kernel and 
 The labs are meant to be completed in order, as each builds on the knowledge and skills acquired in the previous one.
 
 Follow the steps below to set up your lab environment.
+
+---
+
+## Let's get started 👩‍💻🤖
+
+Head over to the [Environment Setup](./00-setup_instructions.md) page for instructions on setting up your workshop environment.
+
+Happy coding!

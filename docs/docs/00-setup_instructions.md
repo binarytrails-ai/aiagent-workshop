@@ -28,9 +28,7 @@
 
 ## Let's get started 👩‍💻🤖
 
-Once your Codespace is ready, you're all set to dive into the labs!
-
-Begin with the first lab to explore Semantic Kernel using GitHub models:
+Once your environment is ready, move on to the first lab to explore Semantic Kernel using GitHub models:
 
 👉 **[Lab 1: Explore Semantic Kernel with GitHub Models](./01-lab-1-using_github_models.md)**
 
