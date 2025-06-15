@@ -276,7 +276,9 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
                   iconName={agentDetails.metadata?.logo}
                 />
 
-                {agentDetails.displayName && <div>{agentDetails.displayName}</div>}
+                {agentDetails.displayName && (
+                  <div>{agentDetails.displayName}</div>
+                )}
 
                 <br />
                 <div>
