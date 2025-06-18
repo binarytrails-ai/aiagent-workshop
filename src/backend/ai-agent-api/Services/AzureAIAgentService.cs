@@ -93,31 +93,6 @@ namespace AIAgent.API.Services
             };
         }
 
-        private static async Task InvokeAgent(string userPrompt, AzureAIAgent agent, AzureAIAgentThread agentThread, ILogger logger)
-        {
-            logger.LogInformation("Invoking agent for threadId: {ThreadId}", agentThread.Id);
-            var userMessage = new ChatMessageContent(AuthorRole.User, userPrompt);
-            var responsesAsync = agent.InvokeAsync(userMessage, agentThread);
-            var enumerator = responsesAsync.GetAsyncEnumerator();
-            try
-            {
-                while (await enumerator.MoveNextAsync())
-                {
-                    // No-op, just consume the responses
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Error while invoking agent for threadId: {ThreadId}", agentThread.Id);
-                throw;
-            }
-            finally
-            {
-                await enumerator.DisposeAsync();
-            }
-            logger.LogInformation("Agent invocation completed for threadId: {ThreadId}", agentThread.Id);
-        }
-
         public async Task<AzureAIAgentThread> GetOrCreateAgentThreadAsync(string? threadId)
         {
             _logger.LogInformation("Getting or creating agent thread for threadId: {ThreadId}", threadId);
@@ -194,5 +169,31 @@ namespace AIAgent.API.Services
             _logger.LogInformation("Agent ready for use. agentId: {AgentId}", agentDefinition.Id);
             return agent;
         }
+   
+        private static async Task InvokeAgent(string userPrompt, AzureAIAgent agent, AzureAIAgentThread agentThread, ILogger logger)
+        {
+            logger.LogInformation("Invoking agent for threadId: {ThreadId}", agentThread.Id);
+            var userMessage = new ChatMessageContent(AuthorRole.User, userPrompt);
+            var responsesAsync = agent.InvokeAsync(userMessage, agentThread);
+            var enumerator = responsesAsync.GetAsyncEnumerator();
+            try
+            {
+                while (await enumerator.MoveNextAsync())
+                {
+                    // No-op, just consume the responses
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error while invoking agent for threadId: {ThreadId}", agentThread.Id);
+                throw;
+            }
+            finally
+            {
+                await enumerator.DisposeAsync();
+            }
+            logger.LogInformation("Agent invocation completed for threadId: {ThreadId}", agentThread.Id);
+        }
+
     } 
 }
