@@ -169,8 +169,8 @@ namespace AIAgent.API.Services
             _logger.LogInformation("Agent ready for use. agentId: {AgentId}", agentDefinition.Id);
             return agent;
         }
-   
-        private static async Task InvokeAgent(string userPrompt, AzureAIAgent agent, AzureAIAgentThread agentThread, ILogger logger)
+
+        private async Task InvokeAgent(string userPrompt, AzureAIAgent agent, AzureAIAgentThread agentThread, ILogger logger)
         {
             logger.LogInformation("Invoking agent for threadId: {ThreadId}", agentThread.Id);
             var userMessage = new ChatMessageContent(AuthorRole.User, userPrompt);
@@ -195,5 +195,5 @@ namespace AIAgent.API.Services
             logger.LogInformation("Agent invocation completed for threadId: {ThreadId}", agentThread.Id);
         }
 
-    } 
+    }
 }
