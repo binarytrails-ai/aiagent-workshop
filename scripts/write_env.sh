@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Define the .env file path
+ENV_FILE_PATH="src/.env"
+
+# Clear the contents of the .env file
+> $ENV_FILE_PATH
+echo "AZURE_ENV_NAME=$(azd env get-value AZURE_ENV_NAME)" >> $ENV_FILE_PATH
+echo "AZURE_LOCATION=$(azd env get-value AZURE_LOCATION)" >> $ENV_FILE_PATH
+echo "AZURE_AI_PROJECT_ENDPOINT=$(azd env get-value AZURE_AI_PROJECT_ENDPOINT)" >> $ENV_FILE_PATH
+echo "AZURE_APP_INSIGHTS_CONNECTION_STRING=$(azd env get-value AZURE_APP_INSIGHTS_CONNECTION_STRING)" >> $ENV_FILE_PATH
+echo "AZURE_APP_INSIGHTS_INSTRUMENTATION_KEY=$(azd env get-value AZURE_APP_INSIGHTS_INSTRUMENTATION_KEY)" >> $ENV_FILE_PATH
+echo "AZURE_LOG_ANALYTICS_WORKSPACE_NAME=$(azd env get-value AZURE_LOG_ANALYTICS_WORKSPACE_NAME)" >> $ENV_FILE_PATH
+echo "AZURE_RESOURCE_GROUP=$(azd env get-value AZURE_RESOURCE_GROUP)" >> $ENV_FILE_PATH
+echo "AZURE_SEARCH_SERVICE_ENDPOINT=$(azd env get-value AZURE_SEARCH_SERVICE_ENDPOINT)" >> $ENV_FILE_PATH
+echo "AZURE_SEARCH_SERVICE_NAME=$(azd env get-value AZURE_SEARCH_SERVICE_NAME)" >> $ENV_FILE_PATH
+echo "AZURE_STORAGE_ACCOUNT=$(azd env get-value AZURE_STORAGE_ACCOUNT)" >> $ENV_FILE_PATH
+echo "AZURE_SUBSCRIPTION_ID=$(azd env get-value AZURE_SUBSCRIPTION_ID)" >> $ENV_FILE_PATH
+echo "AZURE_TENANT_ID=$(azd env get-value AZURE_TENANT_ID)" >> $ENV_FILE_PATH
+echo "FRONTEND_APP_URL=$(azd env get-value FRONTEND_APP_URL)" >> $ENV_FILE_PATH
+echo "TEXT_MODEL_NAME=$(azd env get-value AZURE_OPENAI_DEPLOYMENT_NAME)" >> $ENV_FILE_PATH
+echo "BACKEND_APP_URL=$(azd env get-value BACKEND_APP_URL)" >> $ENV_FILE_PATH
+echo "FRONTEND_APP_URL=$(azd env get-value FRONTEND_APP_URL)" >> $ENV_FILE_PATH
+
+# echo "🌐 Please visit web app URL:"
+# echo -e "\033[0;36m$(azd env get-value SERVICE_API_URI)\033[0m"
+
+exit 0

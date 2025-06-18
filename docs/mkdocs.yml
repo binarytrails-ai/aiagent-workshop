@@ -1,0 +1,80 @@
+site_name: AI Agent Workshop
+site_description: A workshop to learn about AI Agents and how to build them using Azure Foundry and GitHub Models.
+site_author: Rakesh Lakshminarayanana
+site_url: https://binarytrails-ai.github.io/aiagent-workshop
+
+nav:
+  - Welcome: index.md
+  - Environment Setup: 00-setup_instructions.md
+  - "LAB 1: Explore Semantic Kernel using GitHub Models":
+      - Getting Started: 01-lab-1-using_github_models.md
+      - 1.1 Interacting with Large Language Models: 01-lab-1.1-interacting_with_llm.md
+      - 1.2 Function Calling: 01-lab-1.2-function_calling.md
+      - 1.3 AI Agents: 01-lab-1.3-agents.md
+  - "LAB 2: Azure AI Foundry Agents":
+      - Getting Started: 02-lab-2-using_azure_foundry.md
+      - 2.1 Code-First Agent: 02-lab-2.1-code_first_agent.md
+      - 2.2 Working with Tools: 02-lab-2.2-using_tools.md
+      - 2.3 Multi-Agent Orchestration: 02-lab-2.3-multi_agents.md
+  - "LAB 3: Building an AI Application": 03-lab-3.1-ai_application_architecture.md
+  - "Finishing Up": finishing-up.md
+  - Learning Resources: resources.md
+  - Feedback: feedback.md
+
+plugins:
+  - glightbox
+  - include-markdown
+
+theme:
+  name: material
+  logo: media/favicon.png
+  favicon: media/favicon.png
+  features:
+    - navigation.instant
+    - navigation.footer
+    - content.code.copy
+    - navigation.tabs.sticky
+    - content.tabs.link
+
+  # Change Font: https://squidfunk.github.io/mkdocs-material/setup/changing-the-fonts/?h=fonts
+  # Google Fonts Supported By Default: https://fonts.google.com/
+  font:
+    code: Roboto Mono
+    text: Roboto
+  palette:
+    - scheme: default # Light Mode
+      primary: black
+      accent: pink
+      toggle:
+        icon: material/brightness-2
+        name: Switch to dark mode
+    - scheme: slate # Dark Mode
+      primary: amber
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+
+markdown_extensions:
+  - toc:
+      permalink: true
+      toc_depth: 2
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - attr_list
+  - md_in_html
+  # - pymdownx.emoji:
+  # emoji_index: !!python/name:material.extensions.emoji.twemoji
+  # emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra_css:
+  - css/custom.css
+
+# mkdocs.yml
+extra_javascript:
+  - js/custom-nav.js
