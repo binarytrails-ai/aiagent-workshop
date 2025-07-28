@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "<APP-SERVICE-URL>"
+      "url": "https://aiagentwks-contoso-store-mbo43n.azurewebsites.net"
     }
   ],
   "paths": {
