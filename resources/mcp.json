@@ -1,0 +1,13 @@
+{
+    "servers": {
+        "ContosoBikestore": {
+            "type": "stdio",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "--project",
+                "src/backend/contoso-store-api/ContosoBikestore.MCPServer"
+            ]
+        }
+    }
+}
