@@ -10,7 +10,7 @@ You will use [GitHub Models](https://github.com/marketplace?type=models), which 
 
 ## Setting up your environment 🔧
 
-1. Complete the [Getting Started](00-getting_started.md) lab to set up your environment.
+1. Complete the [Getting Started](00-setup_instructions) lab to set up your environment.
 2. You will be using GitHub Models in this lab. From your browser, navigate to [GitHub Models Catalog](https://github.com/marketplace?type=models). You can chat with the models from the **Playground**. </br></br>
    ![GitHub Models Catalog](./media/github-models.png)
 3. We will be interacting with the models from our own applications, so we need an API key to authenticate our requests. Follow these steps to get your API key:
