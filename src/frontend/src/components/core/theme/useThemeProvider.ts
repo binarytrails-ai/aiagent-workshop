@@ -29,26 +29,15 @@ export function useMediaQuery(query: string): boolean {
   return matches;
 }
 export const useThemeProvider = (): IThemeContextValue => {
-  const prefersDark = useMediaQuery("(prefers-color-scheme: dark)");
+  // We're forcing light mode for this application
+  const prefersDark = false;
 
-  const [savedTheme, setSavedTheme] = useState<Theme>(() => {
-    if (typeof localStorage !== "undefined") {
-      const storedTheme = localStorage.getItem(
-        LOCAL_STORAGE_THEME_KEY
-      ) as Theme;
-      if (storedTheme && ["Light", "Dark", "System"].includes(storedTheme)) {
-        return storedTheme;
-      }
-    }
-    return "System";
-  });
+  const [savedTheme, setSavedTheme] = useState<Theme>("Light");
 
-  const isDarkMode =
-    savedTheme === "System" ? prefersDark : savedTheme === "Dark";
-
-  const currentTheme = isDarkMode ? "Dark" : "Light";
-
-  const themeStyles = isDarkMode ? darkTheme : lightTheme;
+  // Force light mode
+  const isDarkMode = false;
+  const currentTheme = "Light";
+  const themeStyles = lightTheme;
 
   const setTheme = useCallback((newTheme: Theme) => {
     setSavedTheme(newTheme);

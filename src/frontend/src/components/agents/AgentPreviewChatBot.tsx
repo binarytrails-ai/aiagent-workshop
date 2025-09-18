@@ -15,8 +15,8 @@ export function AgentPreviewChatBot({ agentName, agentLogo, chatContext }: Agent
   };
   const isEmpty = messageListFromChatContext.length === 0;
   return (
-    <div className={clsx(styles.chatContainer, isEmpty ? styles.emptyChatContainer : undefined)}>
-      {!isEmpty ? (
+    <div className={styles.chatContainer}>
+      {!isEmpty && (
         <div className={styles.copilotChatContainer}>
           {messageListFromChatContext.map((message, index, messageList) =>
             message.isAnswer ? (
@@ -38,8 +38,6 @@ export function AgentPreviewChatBot({ agentName, agentLogo, chatContext }: Agent
             )
           )}
         </div>
-      ) : (
-        <div className={styles.emptyChatContainer}>No messages yet.</div>
       )}
       <ChatInput onSubmit={chatContext.onSubmit} isGenerating={chatContext.isResponding} currentUserMessage={currentUserMessage} />
     </div>

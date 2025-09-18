@@ -23,6 +23,7 @@ namespace AIAgent.API
         public static string AZURE_AI_PROJECT_ENDPOINT => _appConfig.AzureAIAgentProjectEndpoint;
         public static string FRONTEND_APP_URL => _appConfig.FrontendAppUrl;
         public static string CONTOSO_STORE_MCP_URL => _appConfig.ContosoStoreMcpUrl;
-        public static string CONTOSO_STORE_MCP_SERVER_LABEL => _appConfig.ContosoStoreMcpServerLabel ?? "contosoBikeStore";
+        public static string CONTOSO_STORE_MCP_SERVER_LABEL => !string.IsNullOrEmpty(_appConfig.ContosoStoreMcpServerLabel) ?
+            _appConfig.ContosoStoreMcpServerLabel : "contosoBikeStore";
     }
 }

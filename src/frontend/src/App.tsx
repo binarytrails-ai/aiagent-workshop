@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AgentPreview } from "./components/agents/AgentPreview";
 import { ThemeProvider } from "./components/core/theme/ThemeProvider";
 import { API_BASE_URL } from "./api";
+import "./style-override.css";
 
 const App: React.FC = () => {
   // State to store the agent details

@@ -20,7 +20,7 @@ namespace AIAgent.API
         public string AzureAIProjectName => GetRequiredEnvOrConfig("AZURE_AI_PROJECT_NAME", "AzureAI:ProjectName");
         public string AzureAIAgentProjectEndpoint => GetRequiredEnvOrConfig("AZURE_AI_PROJECT_ENDPOINT", "AzureAI:AgentProjectEndpoint");
         public string ContosoStoreMcpUrl => GetRequiredEnvOrConfig("CONTOSO_STORE_MCP_URL", "McpConfig:ContosoBikeStoreMcpUrl");
-        public string ContosoStoreMcpServerLabel => GetRequiredEnvOrConfig("CONTOSO_STORE_MCP_SERVER_LABEL", "McpConfig:ContosoBikeStoreMcpServerLabel");
+        public string ContosoStoreMcpServerLabel => GetOptionalEnvOrConfig("CONTOSO_STORE_MCP_SERVER_LABEL", "McpConfig:ContosoBikeStoreMcpServerLabel");
 
         private string GetRequiredEnvOrConfig(string envVar, string configKey, string defaultValue = null)
         {

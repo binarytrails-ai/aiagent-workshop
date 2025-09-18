@@ -243,17 +243,15 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
     <div className={styles.container}>
       <div className={styles.topBar}>
         <div className={styles.leftSection}>
-          <AgentIcon iconName={agentDetails.name} alt={agentDetails.name} />
-          <span className={styles.agentName}>{agentDetails.displayName}</span>
+          <div className={styles.logoContainer}>
+            <span className={styles.bikeIcon}>🚲</span>
+          </div>
+          <div className={styles.titleContainer}>
+            {/* <span className={styles.companyName}>Contoso Bike Store</span> */}
+            <span className={styles.companyName}>{agentDetails.displayName || "AI Assistant"}</span>
+          </div>
         </div>
         <div className={styles.rightSection}>
-          <Button
-            appearance="subtle"
-            icon={<ChatRegular aria-hidden={true} />}
-            onClick={newThread}
-          >
-            New Chat
-          </Button>
         </div>
       </div>
       <div className={styles.content}>
@@ -262,16 +260,7 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
         ) : (
           <>
             {messageList.length === 0 && (
-              <div
-                className={styles.emptyChatContainer}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
-                  fontWeight: "bold",
-                }}
-              >
+              <div className={styles.emptyChatContainer}>
                 <AgentIcon
                   alt=""
                   iconClassName={styles.emptyStateAgentIcon}
@@ -279,28 +268,55 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
                 />
 
                 {agentDetails.displayName && (
-                  <div>{agentDetails.displayName}</div>
+                  <Title2 as="h2" className={styles.emptyStateTitle}>
+                    Welcome to {agentDetails.displayName}
+                  </Title2>
                 )}
 
-                <br />
-                <div>
-                  {agentDetails.description && (
-                    <Caption1 className={styles.emptyStateDescription}>
-                      {agentDetails.description}
-                    </Caption1>
-                  )}
+                <div className={styles.emptyStateDescription}>
+                  This agent provides customer support for Contoso Bike Store. It assists users with product inquiries, order status, and store information. The agent utilizes the <strong>MCP</strong> tools to effectively address and resolve customer questions.
                 </div>
-
-                <Title2 as="h2" className={styles.emptyStateTitle}>
-                  How can I help you today?
-                </Title2>
+                
+                <div className={styles.suggestedPrompts}>
+                  <p className={styles.suggestedPromptsLabel}>Try asking about:</p>
+                  <div className={styles.promptButtons}>
+                    <Button appearance="outline" className={styles.promptButton}
+                      onClick={() => chatContext.onSubmit("What bikes do you have available?")}>
+                      Available bikes
+                    </Button>
+                    <Button appearance="outline" className={styles.promptButton}
+                      onClick={() => chatContext.onSubmit("What accessories do you recommend?")}>
+                      Bike accessories
+                    </Button>
+                    <Button appearance="outline" className={styles.promptButton}
+                      onClick={() => chatContext.onSubmit("Help me find the right bike for me")}>
+                      Find the right bike
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className={styles.emptyStateFooter}>
+                  <Title2 as="h3">
+                    How can I assist with your biking needs today?
+                  </Title2>
+                </div>
               </div>
             )}
-            <AgentPreviewChatBot
-              agentName={agentDetails.name}
-              agentLogo={agentDetails.name}
-              chatContext={chatContext}
-            />
+            <div className={styles.chatControlWrapper}>
+              <AgentPreviewChatBot
+                agentName={agentDetails.name}
+                agentLogo={agentDetails.name}
+                chatContext={chatContext}
+              />
+              <Button
+                appearance="primary"
+                icon={<ChatRegular aria-hidden={true} />}
+                className={styles.newChatButton}
+                onClick={newThread}
+              >
+                New Chat
+              </Button>
+            </div>
           </>
         )}
       </div>

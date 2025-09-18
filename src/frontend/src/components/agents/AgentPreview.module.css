@@ -1,45 +1,302 @@
-/* ...existing code from frontend/src/components/agents/AgentPreview.module.css... */
 .container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  background-color: var(--colorNeutralBackground1);
+  background-color: #ffffff;
+  color: #2A3642;
+  position: relative;
 }
+
 .topBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px;
-  border-bottom: 1px solid var(--colorNeutralStroke1);
-  background-color: var(--colorNeutralBackground2);
+  padding: 16px 24px;
+  border-bottom: 1px solid #E0E6ED;
+  background: linear-gradient(to right, #4FA9D9, #8BC6E8);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  color: white;
 }
+
 .leftSection, .rightSection {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
 }
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 8px;
+}
+
+.bikeIcon {
+  font-size: 36px;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.15));
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.companyName {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: white;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
 .agentIcon {
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s ease;
+  background-color: var(--colorNeutralBackground1);
+  border: 2px solid var(--colorBrandBackground1);
 }
-.emptyStateAgentIcon {
-  width: 64px;
-  height: 64px;
-  border-radius: 8px;
+
+.agentIcon:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-.agentName {
+
+.chatControlWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.newChatButton {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  padding: 8px 16px;
+  background-color: var(--colorBrandBackground);
+  color: white;
   font-weight: 600;
+  border: none;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  font-size: 0.95rem;
+  letter-spacing: 0.2px;
+  opacity: 0.9;
 }
+
+.newChatButton:hover {
+  background-color: var(--colorBrandBackgroundHover);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
+  opacity: 1;
+}
+
+.emptyStateAgentIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+  animation: pulseAnimation 2s infinite ease-in-out;
+}
+
+@keyframes pulseAnimation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.agentName {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: white;
+  opacity: 0.9;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
 .content {
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   overflow: hidden;
   box-sizing: border-box;
-  width: 50%;
-  margin: 5px auto;
+  width: 90%;
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 0 16px;
+  border-radius: var(--borderRadiusLarge);
+  background-color: var(--colorNeutralBackground1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Responsive breakpoints */
+@media screen and (max-width: 992px) {
+  .content {
+    width: 95%;
+    margin: 16px auto;
+  }
+  
+  .promptButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .promptButton {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .topBar {
+    padding: 12px 16px;
+  }
+  
+  .companyName {
+    font-size: 1rem;
+  }
+  
+  .agentName {
+    font-size: 0.8rem;
+  }
+  
+  .bikeIcon {
+    font-size: 20px;
+    top: -8px;
+    left: -10px;
+  }
+  
+  .content {
+    width: 100%;
+    margin: 8px auto;
+    padding: 0 8px;
+  }
+  
+  .emptyChatContainer {
+    padding: 32px 16px;
+  }
+  
+  .emptyStateTitle {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .leftSection, .rightSection {
+    gap: 8px;
+  }
+  
+  .newChatButton {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    bottom: 16px;
+    right: 16px;
+  }
+  
+  .agentIcon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .emptyStateAgentIcon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .emptyStateDescription {
+    font-size: 1rem;
+    padding: 0 12px;
+    text-align: center;
+  }
+}
+
+.emptyChatContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  border-radius: var(--borderRadiusLarge);
+  background-color: var(--colorNeutralBackground1);
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--colorNeutralStroke1);
+}
+
+.emptyStateTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 24px 0 16px;
+  color: var(--colorBrandForeground1);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+.emptyStateDescription {
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 32px;
+  font-size: 1.1rem;
+  color: var(--colorNeutralForeground1);
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+.suggestedPrompts {
+  width: 100%;
+  max-width: 600px;
+  margin: 16px 0 32px;
+}
+
+.suggestedPromptsLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--colorNeutralForeground1);
+}
+
+.promptButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin: 10px 0 20px;
+}
+
+.promptButton {
+  border-radius: var(--borderRadiusMedium);
+  border: 1px solid var(--colorBrandBackground);
+  background-color: white;
+  color: var(--colorBrandForeground1);
+  padding: 12px 20px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.promptButton:hover {
+  background-color: var(--colorBrandBackground);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.emptyStateFooter {
+  margin-top: 24px;
+  text-align: center;
+  font-style: italic;
+  color: var(--colorBrandForeground1);
 }

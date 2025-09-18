@@ -20,7 +20,8 @@ echo "AZURE_TENANT_ID=$(azd env get-value AZURE_TENANT_ID)" >> $ENV_FILE_PATH
 echo "FRONTEND_APP_URL=$(azd env get-value FRONTEND_APP_URL)" >> $ENV_FILE_PATH
 echo "TEXT_MODEL_NAME=$(azd env get-value AZURE_OPENAI_DEPLOYMENT_NAME)" >> $ENV_FILE_PATH
 echo "BACKEND_APP_URL=$(azd env get-value BACKEND_APP_URL)" >> $ENV_FILE_PATH
-echo "FRONTEND_APP_URL=$(azd env get-value FRONTEND_APP_URL)" >> $ENV_FILE_PATH
+echo "CONTOSO_STORE_APP_URL=$(azd env get-value CONTOSO_STORE_APP_URL)" >> $ENV_FILE_PATH
+echo "CONTOSO_STORE_MCP_URL=$(azd env get-value CONTOSO_STORE_MCP_URL)" >> $ENV_FILE_PATH
 
 # echo "🌐 Please visit web app URL:"
 # echo -e "\033[0;36m$(azd env get-value SERVICE_API_URI)\033[0m"

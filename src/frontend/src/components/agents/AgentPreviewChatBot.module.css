@@ -25,9 +25,7 @@
 .hasMessages {
   height: 100%;
 }
-.emptyChatContainer {
-  height: auto;
-}
+/* Removed empty chat container style */
 .userMessage {
   padding-top: 0;
   padding-bottom: 0;
