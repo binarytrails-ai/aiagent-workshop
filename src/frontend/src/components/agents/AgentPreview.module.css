@@ -6,6 +6,7 @@
   background-color: #ffffff;
   color: #2A3642;
   position: relative;
+  overflow: hidden;
 }
 
 .topBar {
@@ -73,7 +74,9 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   position: relative;
+  overflow: hidden;
 }
 
 .newChatButton {
@@ -139,6 +142,7 @@
   border-radius: var(--borderRadiusLarge);
   background-color: var(--colorNeutralBackground1);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  height: calc(100vh - 100px); /* Adjust based on your header height */
 }
 
 /* Responsive breakpoints */

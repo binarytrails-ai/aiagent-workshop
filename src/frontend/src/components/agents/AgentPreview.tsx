@@ -139,9 +139,12 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
 
         // It's generally better to build the new list and set state once
         const historyMessages: IChatItem[] = [];
-        const reversedResponse = [...json_response].reverse();
+        // Sort messages by createdAt in ascending order (oldest to newest)
+        const sortedResponse = [...json_response].sort((a, b) => 
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
 
-        for (const entry of reversedResponse) {
+        for (const entry of sortedResponse) {
           if (entry.role === "user") {
             historyMessages.push({
               id: `${entry.created_at}-user`,
