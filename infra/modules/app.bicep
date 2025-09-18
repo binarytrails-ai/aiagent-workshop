@@ -10,6 +10,7 @@ param openAIDeploymentName string
 var frontendAppName = '${resourcePrefix}-web-${uniqueSuffixValue}'
 var backendAppName = '${resourcePrefix}-api-${uniqueSuffixValue}'
 var contosoStoreAppName = '${resourcePrefix}-contoso-store-${uniqueSuffixValue}'
+var mcpServerAppName = '${resourcePrefix}-mcp-${uniqueSuffixValue}'
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: '${resourcePrefix}-plan-${uniqueSuffixValue}'
@@ -104,6 +105,29 @@ resource contosoStoreApp 'Microsoft.Web/sites@2022-03-01' = {
   }
 }
 
+resource mcpServerApp 'Microsoft.Web/sites@2022-03-01' = {
+  name: mcpServerAppName
+  location: location
+  tags: union(tags, {
+    'azd-service-name': 'contoso-store-mcp'
+  })
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    serverFarmId: appServicePlan.id
+    httpsOnly: true
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'CONTOSO_STORE_URL'
+          value: 'https://${contosoStoreAppName}.azurewebsites.net'
+        }
+      ]
+    }
+  }
+}
+
 // Role assignment for backend app system-assigned managed identity
 resource backendAppRoleAssignment1 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(backendApp.id, 'backend-role-azureai-developer')
@@ -128,3 +152,4 @@ resource backendAppRoleAssignment2 'Microsoft.Authorization/roleAssignments@2022
 output BACKEND_APP_URL string = 'https://${backendApp.name}.azurewebsites.net'
 output FRONTEND_APP_URL string = 'https://${frontendApp.name}.azurewebsites.net'
 output CONTOSO_STORE_APP_URL string = 'https://${contosoStoreApp.name}.azurewebsites.net'
+output MCP_SERVER_APP_URL string = 'https://${mcpServerApp.name}.azurewebsites.net'

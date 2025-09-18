@@ -66,7 +66,7 @@ In this lab, you’ll learn how to build and extend the capabilities of your AI 
     
     For your agent to interact with this API, you need to update the API specification (Swagger file) with the correct endpoint URL: 
 
-      - Got to `swagger.json` file in the `resources` directory of your project.
+      - Got to `contoso-store-api-swagger.json` file in the `resources` directory of your project.
       - Replace `<APP-SERVICE-URL>` with the actual URL of the Contoso Store API. 
         
         You can find this URL in your `.env` file under the variable name `CONTOSO_STORE_API_URL`.

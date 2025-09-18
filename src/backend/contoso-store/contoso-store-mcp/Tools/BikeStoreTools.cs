@@ -7,7 +7,9 @@ namespace ContosoBikestore.MCPServer.Tools;
 [McpServerToolType]
 public sealed class BikeStoreTools
 {
-    private const string BaseUrl = "https://aiagentwks-contoso-store-mbo43n.azurewebsites.net";
+    // Get the URL from environment variable or fall back to default value
+    private static readonly string BaseUrl = Environment.GetEnvironmentVariable("CONTOSO_STORE_URL") ?? 
+        "https://aiagentwks-contoso-store-mbo43n.azurewebsites.net";
 
     [McpServerTool, Description("Get all available bikes from the Contoso bike store.")]
     public static async Task<string> GetAvailableBikes(HttpClient client)
