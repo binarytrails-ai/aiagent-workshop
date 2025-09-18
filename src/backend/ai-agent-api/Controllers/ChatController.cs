@@ -10,7 +10,7 @@ namespace AIAgent.API.Controllers
     public class ChatController : ControllerBase
     {
         private readonly IAzureAIAgentService _azureAIAgentService;
-        private readonly TechSupportAgentConfig _techSupportAgentConfig = new();
+        private readonly ContosoBikeStoreAgentConfig _contosoBikeStoreAgentConfig = new();
         private readonly ILogger<ChatController> _logger;
 
         public ChatController(IAzureAIAgentService azureAIAgentService, ILogger<ChatController> logger)
@@ -29,9 +29,9 @@ namespace AIAgent.API.Controllers
             _logger.LogInformation("Fetching chat agent info.");
             var agentInfo = new
             {
-                Name = _techSupportAgentConfig.AgentName,
-                DisplayName = _techSupportAgentConfig.GetAgentDisplayName(),
-                Description = _techSupportAgentConfig.GetDescription(),
+                Name = _contosoBikeStoreAgentConfig.AgentName,
+                DisplayName = _contosoBikeStoreAgentConfig.GetAgentDisplayName(),
+                Description = _contosoBikeStoreAgentConfig.GetDescription(),
             };
             return Ok(agentInfo);
         }

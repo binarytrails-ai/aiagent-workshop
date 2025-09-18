@@ -9,6 +9,12 @@ namespace AIAgent.API.Agents
             {
                 return new TechSupportAgentConfig();
             }
+
+            if (string.IsNullOrEmpty(agentName) || agentName == "ContosoBikeStoreAgent")
+            {
+                return new ContosoBikeStoreAgentConfig();
+            }
+
             // Add more agent types here as needed.
             throw new ArgumentException($"Unknown agentId: {agentName}");
         }

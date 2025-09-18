@@ -61,6 +61,10 @@ resource backendApp 'Microsoft.Web/sites@2022-03-01' = {
           name: 'Azure__SubscriptionId'
           value: subscription().subscriptionId
         }
+        {
+          name: 'CONTOSO_STORE_MCP_URL'
+          value: 'https://${mcpServerApp.name}.azurewebsites.net/sse'
+        }
       ]
     }
   }
@@ -152,4 +156,4 @@ resource backendAppRoleAssignment2 'Microsoft.Authorization/roleAssignments@2022
 output BACKEND_APP_URL string = 'https://${backendApp.name}.azurewebsites.net'
 output FRONTEND_APP_URL string = 'https://${frontendApp.name}.azurewebsites.net'
 output CONTOSO_STORE_APP_URL string = 'https://${contosoStoreApp.name}.azurewebsites.net'
-output MCP_SERVER_APP_URL string = 'https://${mcpServerApp.name}.azurewebsites.net'
+output CONTOSO_STORE_MCP_URL string = 'https://${mcpServerApp.name}.azurewebsites.net/sse'

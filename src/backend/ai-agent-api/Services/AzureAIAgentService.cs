@@ -2,198 +2,210 @@ using Azure.Identity;
 using Azure.AI.Agents.Persistent;
 using Microsoft.SemanticKernel.Agents.AzureAI;
 using AIAgent.API.Models;
-using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel;
-using AIAgent.API.KernelTools;
 using AIAgent.API.Agents;
+using Azure;
 
-namespace AIAgent.API.Services
+namespace AIAgent.API.Services;
+
+/// <summary>
+/// Service implementation for Azure AI Agent operations.
+/// </summary>
+public class AzureAIAgentService : IAzureAIAgentService
 {
-    /// <summary>
-    /// Service implementation for Azure AI Agent operations.
-    /// </summary>
-    public class AzureAIAgentService : IAzureAIAgentService
+    private readonly PersistentAgentsClient _projectClient;
+    private readonly ILogger<AzureAIAgentService> _logger;
+
+    public AzureAIAgentService(ILogger<AzureAIAgentService> logger)
     {
-        private readonly PersistentAgentsClient _projectClient;
-        private readonly ILogger<AzureAIAgentService> _logger;
+        var projectEndpoint = Config.AZURE_AI_PROJECT_ENDPOINT;
+        _projectClient = AzureAIAgent.CreateAgentsClient(projectEndpoint, new DefaultAzureCredential());
+        _logger = logger;
+    }
 
-        public AzureAIAgentService(ILogger<AzureAIAgentService> logger)
+    public async Task<List<ChatMessageHistory>> GetChatMessageHistoryAsync(string threadId)
+    {
+        _logger.LogInformation("Fetching chat message history for threadId: {ThreadId}", threadId);
+        if (string.IsNullOrEmpty(threadId))
         {
-            var projectEndpoint = Config.AZURE_AI_PROJECT_ENDPOINT;
-            _projectClient = AzureAIAgent.CreateAgentsClient(projectEndpoint, new DefaultAzureCredential());
-            _logger = logger;
+            _logger.LogWarning("No threadId provided for chat history.");
+            return new();
         }
 
-        public async Task<List<ChatMessageHistory>> GetChatMessageHistoryAsync(string threadId)
+        var thread = await _projectClient.Threads.GetThreadAsync(threadId);
+        if (thread == null)
         {
-            _logger.LogInformation("Fetching chat message history for threadId: {ThreadId}", threadId);
-            if (string.IsNullOrEmpty(threadId))
-            {
-                _logger.LogWarning("No threadId provided for chat history.");
-                return new();
-            }
+            _logger.LogWarning("No persistent thread found for threadId: {ThreadId}", threadId);
+            return new();
+        }
 
+        var messages = new List<ChatMessageHistory>();
+
+        AsyncPageable<PersistentThreadMessage> threadMessages
+       = _projectClient.Messages.GetMessagesAsync(
+           threadId: thread.Value.Id, order: ListSortOrder.Ascending);
+
+        IReadOnlyList<PersistentThreadMessage> messages1 = [.._projectClient.Messages.GetMessages(
+        threadId: thread.Value.Id,   order: ListSortOrder.Ascending )];
+
+        await foreach (PersistentThreadMessage threadMessage in threadMessages)
+        {
+            Console.Write($"{threadMessage.CreatedAt:yyyy-MM-dd HH:mm:ss} - {threadMessage.Role,10}: ");
+            foreach (var contentItem in threadMessage.ContentItems)
+            {
+                if (contentItem is MessageTextContent textItem)
+                {
+                    Console.Write(textItem.Text);
+                    messages.Add(new ChatMessageHistory
+                    {
+                        Role = threadMessage.Role == MessageRole.User ? "user" : "assistant",
+                        Content = textItem.Text,
+                        CreatedAt = threadMessage.CreatedAt.ToString("o")
+                    });
+                }
+            }
+        }
+
+        return messages;
+    }
+
+    public async Task<SendMessageResult> SendMessage(string userPrompt, string agentName, string agentId, string threadId)
+    {
+        _logger.LogInformation("Sending message to agent. agentId: {AgentId}, threadId: {ThreadId}", agentId, threadId);
+
+        var agent = await GetOrCreateAgentAsync(agentName, agentId);
+        var agentThread = await GetOrCreateAgentThreadAsync(threadId);
+
+        await InvokeAgent(userPrompt, agent, agentThread, _logger);
+
+        _logger.LogInformation("Message sent successfully. agentId: {AgentId}, threadId: {ThreadId}", agentId, agentThread.Id);
+        return new SendMessageResult
+        {
+            ThreadId = agentThread.Id,
+            AgentId = agent.Id
+        };
+    }
+
+    public async Task<PersistentAgentThread> GetOrCreateAgentThreadAsync(string? threadId)
+    {
+        _logger.LogInformation("Getting or creating agent thread for threadId: {ThreadId}", threadId);
+        if (!string.IsNullOrEmpty(threadId))
+        {
             var persistentThread = await _projectClient.Threads.GetThreadAsync(threadId);
-            if (persistentThread == null)
+            if (persistentThread != null)
             {
-                _logger.LogWarning("No persistent thread found for threadId: {ThreadId}", threadId);
-                return new();
+                _logger.LogInformation("Found existing thread for threadId: {ThreadId}", threadId);
+                return persistentThread;
             }
+        }
+        _logger.LogInformation("Creating new agent thread.");
+        return await _projectClient.Threads.CreateThreadAsync();
+    }
 
-            var agentThread = new AzureAIAgentThread(_projectClient, persistentThread.Value.Id);
-            var messages = new List<ChatMessageHistory>();
-            var messagesAsync = _projectClient.Messages.GetMessagesAsync(agentThread.Id);
-            var enumerator = messagesAsync.GetAsyncEnumerator();
+    private async Task<PersistentAgent> GetOrCreateAgentAsync(string agentName, string? agentId)
+    {
+        _logger.LogInformation("Getting or creating agent for agentId: {AgentId}", agentId);
+        PersistentAgent agentDefinition = null;
+        var modelId = Config.AZURE_OPENAI_DEPLOYMENT_NAME;
+        var agentConfig = AgentFactory.GetAgent(agentName);
+        var agentInstructions = agentConfig.GetSystemMessage();
+
+        if (!string.IsNullOrEmpty(agentId))
+        {
+            try
+            {
+                agentDefinition = await _projectClient.Administration.GetAgentAsync(agentId);
+                _logger.LogInformation("Found existing agent for agentId: {AgentId}", agentId);
+            }
+            catch (Azure.RequestFailedException)
+            {
+                _logger.LogWarning("Agent not found for agentId: {AgentId}, will create a new one.", agentId);
+            }
+        }
+
+        if (agentDefinition == null)
+        {
+            var agentsAsync = _projectClient.Administration.GetAgentsAsync();
+            var enumerator = agentsAsync.GetAsyncEnumerator();
             try
             {
                 while (await enumerator.MoveNextAsync())
                 {
-                    var msg = enumerator.Current;
-                    foreach (var content in msg.ContentItems)
+                    var agentDefn = enumerator.Current;
+                    if (agentDefn.Name == agentName)
                     {
-                        if (content is MessageTextContent textContent)
-                        {
-                            messages.Add(new ChatMessageHistory
-                            {
-                                Role = msg.Role == Azure.AI.Agents.Persistent.MessageRole.User ? "user" : "assistant",
-                                Content = textContent.Text,
-                                CreatedAt = msg.CreatedAt.ToString("o")
-                            });
-                        }
+                        agentDefinition = agentDefn;
+                        _logger.LogInformation("Found agent by name: {AgentName}", agentName);
+                        break;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error while fetching messages for threadId: {ThreadId}", threadId);
-                throw;
             }
             finally
             {
                 await enumerator.DisposeAsync();
             }
-            _logger.LogInformation("Fetched {Count} messages for threadId: {ThreadId}", messages.Count, threadId);
-            return messages;
         }
 
-        public async Task<SendMessageResult> SendMessage(string userPrompt, string agentName, string agentId, string threadId)
+        if (agentDefinition == null)
         {
-            _logger.LogInformation("Sending message to agent. agentId: {AgentId}, threadId: {ThreadId}", agentId, threadId);
+            _logger.LogInformation("Creating new agent with name: {AgentName}", agentName);
 
-            var agent = await GetOrCreateAgentAsync(agentName, agentId);
-            var agentThread = await GetOrCreateAgentThreadAsync(threadId);
+            var modelDeploymentName = "gpt-4o";
+            var mcpServerUrl = Config.CONTOSO_STORE_MCP_URL;
+            var mcpServerLabel = Config.CONTOSO_STORE_MCP_SERVER_LABEL;
+            MCPToolDefinition mcpTool = new(mcpServerLabel, mcpServerUrl);
 
-            await InvokeAgent(userPrompt, agent, agentThread, _logger);
-
-            _logger.LogInformation("Message sent successfully. agentId: {AgentId}, threadId: {ThreadId}", agentId, agentThread.Id);
-            return new SendMessageResult
-            {
-                ThreadId = agentThread.Id,
-                AgentId = agent.Id
-            };
+            agentDefinition = await _projectClient.Administration.CreateAgentAsync(
+                modelId,
+                name: agentName,
+                instructions: agentInstructions,
+                tools: [mcpTool]);
         }
 
-        public async Task<AzureAIAgentThread> GetOrCreateAgentThreadAsync(string? threadId)
+        return agentDefinition;
+    }
+
+    private async Task InvokeAgent(string userPrompt, PersistentAgent agent, PersistentAgentThread thread, ILogger logger)
+    {
+        var mcpServerLabel = Config.CONTOSO_STORE_MCP_SERVER_LABEL;
+        MCPToolResource mcpToolResource = new(mcpServerLabel);
+        mcpToolResource.UpdateHeader("SuperSecret", "123456");
+        ToolResources toolResources = mcpToolResource.ToToolResources();
+
+        logger.LogInformation("Invoking agent for threadId: {ThreadId}", thread.Id);
+        // Create message to thread
+        var message = _projectClient.Messages.CreateMessage(
+            thread.Id, MessageRole.User, userPrompt);
+
+        ThreadRun run = _projectClient.Runs.CreateRun(thread, agent, toolResources);
+
+        while (run.Status == RunStatus.Queued ||
+            run.Status == RunStatus.InProgress ||
+            run.Status == RunStatus.RequiresAction)
         {
-            _logger.LogInformation("Getting or creating agent thread for threadId: {ThreadId}", threadId);
-            if (!string.IsNullOrEmpty(threadId))
-            {
-                var persistentThread = await _projectClient.Threads.GetThreadAsync(threadId);
-                if (persistentThread != null)
-                {
-                    _logger.LogInformation("Found existing thread for threadId: {ThreadId}", threadId);
-                    return new AzureAIAgentThread(_projectClient, persistentThread.Value.Id);
-                }
-            }
-            _logger.LogInformation("Creating new agent thread.");
-            return new AzureAIAgentThread(_projectClient);
-        }
+            Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+            run = _projectClient.Runs.GetRun(thread.Id, run.Id);
 
-        private async Task<AzureAIAgent> GetOrCreateAgentAsync(string agentName, string? agentId)
-        {
-            _logger.LogInformation("Getting or creating agent for agentId: {AgentId}", agentId);
-            PersistentAgent agentDefinition = null;
-            var modelId = Config.AZURE_OPENAI_DEPLOYMENT_NAME;
-            var agentConfig = AgentFactory.GetAgent(agentName);
-            var agentInstructions = agentConfig.GetSystemMessage();
-
-            if (!string.IsNullOrEmpty(agentId))
+            if (run.Status == RunStatus.RequiresAction &&
+                run.RequiredAction is SubmitToolApprovalAction toolApprovalAction)
             {
-                try
+                var toolApprovals = new List<ToolApproval>();
+                foreach (var toolCall in toolApprovalAction.SubmitToolApproval.ToolCalls)
                 {
-                    agentDefinition = await _projectClient.Administration.GetAgentAsync(agentId);
-                    _logger.LogInformation("Found existing agent for agentId: {AgentId}", agentId);
-                }
-                catch (Azure.RequestFailedException)
-                {
-                    _logger.LogWarning("Agent not found for agentId: {AgentId}, will create a new one.", agentId);
-                }
-            }
-
-            if (agentDefinition == null)
-            {
-                var agentsAsync = _projectClient.Administration.GetAgentsAsync();
-                var enumerator = agentsAsync.GetAsyncEnumerator();
-                try
-                {
-                    while (await enumerator.MoveNextAsync())
+                    if (toolCall is RequiredMcpToolCall mcpToolCall)
                     {
-                        var agentDefn = enumerator.Current;
-                        if (agentDefn.Name == agentName)
+                        Console.WriteLine($"Approving MCP tool call: {mcpToolCall.Name}, Arguments: {mcpToolCall.Arguments}");
+                        toolApprovals.Add(new ToolApproval(mcpToolCall.Id, approve: true)
                         {
-                            agentDefinition = agentDefn;
-                            _logger.LogInformation("Found agent by name: {AgentName}", agentName);
-                            break;
-                        }
+                            Headers = { ["SuperSecret"] = "123456" }
+                        });
                     }
                 }
-                finally
+
+                if (toolApprovals.Count > 0)
                 {
-                    await enumerator.DisposeAsync();
+                    run = _projectClient.Runs.SubmitToolOutputsToRun(thread.Id, run.Id, toolApprovals: toolApprovals);
                 }
             }
-
-            if (agentDefinition == null)
-            {
-                _logger.LogInformation("Creating new agent with name: {AgentName}", agentName);
-                agentDefinition = await _projectClient.Administration.CreateAgentAsync(
-                    modelId,
-                    name: agentName,
-                    instructions: agentInstructions,
-                    tools: [],
-                    toolResources: null);
-            }
-
-            var agent = new AzureAIAgent(agentDefinition, _projectClient);
-            agent.Kernel.ImportPluginFromObject(new TechSupportTools(), "TechSupportTools");
-            _logger.LogInformation("Agent ready for use. agentId: {AgentId}", agentDefinition.Id);
-            return agent;
         }
-
-        private async Task InvokeAgent(string userPrompt, AzureAIAgent agent, AzureAIAgentThread agentThread, ILogger logger)
-        {
-            logger.LogInformation("Invoking agent for threadId: {ThreadId}", agentThread.Id);
-            var userMessage = new ChatMessageContent(AuthorRole.User, userPrompt);
-            var responsesAsync = agent.InvokeAsync(userMessage, agentThread);
-            var enumerator = responsesAsync.GetAsyncEnumerator();
-            try
-            {
-                while (await enumerator.MoveNextAsync())
-                {
-                    // No-op, just consume the responses
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Error while invoking agent for threadId: {ThreadId}", agentThread.Id);
-                throw;
-            }
-            finally
-            {
-                await enumerator.DisposeAsync();
-            }
-            logger.LogInformation("Agent invocation completed for threadId: {ThreadId}", agentThread.Id);
-        }
-
     }
 }
