@@ -1,11 +1,8 @@
 ﻿using System.ComponentModel;
-using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using ModelContextProtocol.Server;
 
-
 namespace ContosoBikestore.MCPServer.Tools;
-
 
 [McpServerToolType]
 public sealed class BikeStoreTools
@@ -36,10 +33,9 @@ public sealed class BikeStoreTools
             }
 
             var jsonContent = await response.Content.ReadAsStringAsync();
-            _logger.LogInformation("[BikeStoreTools] JSON Response: {JsonContent}", jsonContent);
+            _logger.LogTrace("[BikeStoreTools] JSON Response: {JsonContent}", jsonContent);
             using var jsonDocument = JsonDocument.Parse(jsonContent);
 
-            // Pretty format the JSON response
             return JsonSerializer.Serialize(jsonDocument.RootElement, new JsonSerializerOptions
             {
                 WriteIndented = true
@@ -67,7 +63,7 @@ public sealed class BikeStoreTools
             }
 
             var jsonContent = await response.Content.ReadAsStringAsync();
-            _logger.LogInformation("[BikeStoreTools] JSON Response: {JsonContent}", jsonContent);
+            _logger.LogTrace("[BikeStoreTools] JSON Response: {JsonContent}", jsonContent);
             using var jsonDocument = JsonDocument.Parse(jsonContent);
 
             // Pretty format the JSON response
@@ -113,7 +109,7 @@ public sealed class BikeStoreTools
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            _logger.LogInformation("[BikeStoreTools] JSON Response: {JsonContent}", responseContent);
+            _logger.LogTrace("[BikeStoreTools] JSON Response: {JsonContent}", responseContent);
             using var jsonDocument = JsonDocument.Parse(responseContent);
 
             // Pretty format the JSON response
@@ -144,7 +140,7 @@ public sealed class BikeStoreTools
             }
 
             var jsonContent = await response.Content.ReadAsStringAsync();
-            _logger.LogInformation("[BikeStoreTools] JSON Response: {JsonContent}", jsonContent);
+            _logger.LogTrace("[BikeStoreTools] JSON Response: {JsonContent}", jsonContent);
             using var jsonDocument = JsonDocument.Parse(jsonContent);
 
             return JsonSerializer.Serialize(jsonDocument.RootElement, new JsonSerializerOptions

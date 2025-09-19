@@ -168,7 +168,7 @@ public class AzureAIAgentService : IAzureAIAgentService
     {
         var mcpServerLabel = Config.CONTOSO_STORE_MCP_SERVER_LABEL;
         MCPToolResource mcpToolResource = new(mcpServerLabel);
-        mcpToolResource.UpdateHeader("SuperSecret", "123456");
+        mcpToolResource.UpdateHeader("X-API-KEY", Config.CONTOSO_STORE_MCP_SERVER_API_KEY);
         ToolResources toolResources = mcpToolResource.ToToolResources();
 
         logger.LogInformation("Invoking agent for threadId: {ThreadId}", thread.Id);
@@ -196,7 +196,7 @@ public class AzureAIAgentService : IAzureAIAgentService
                         Console.WriteLine($"Approving MCP tool call: {mcpToolCall.Name}, Arguments: {mcpToolCall.Arguments}");
                         toolApprovals.Add(new ToolApproval(mcpToolCall.Id, approve: true)
                         {
-                            Headers = { ["SuperSecret"] = "123456" }
+                            Headers = { ["X-API-KEY"] = Config.CONTOSO_STORE_MCP_SERVER_API_KEY }
                         });
                     }
                 }
