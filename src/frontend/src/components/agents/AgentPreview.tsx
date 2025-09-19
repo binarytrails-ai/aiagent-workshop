@@ -292,7 +292,7 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
                       Order status
                     </Button>
                     <Button appearance="outline" className={styles.promptButton}
-                      onClick={() => chatContext.onSubmit("I want to place an order for the Mountain Explorer bike.?")}>
+                      onClick={() => chatContext.onSubmit("I want to place an order for the Contoso Mountain X1 bike")}>
                       Place order
                     </Button>
                   </div>

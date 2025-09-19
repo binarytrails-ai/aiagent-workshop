@@ -78,4 +78,46 @@ public sealed class ProductInventoryTool
             throw;
         }
     }
+
+    [McpServerTool, Description("Get bike ID by its name.")]
+    public async Task<string> GetBikeIdByName(
+        [Description("The name of the bike to find")] string bikeName)
+    {
+        try
+        {
+            // Get all bikes first
+            var requestUri = $"{_baseUrl}/api/bikes";
+            using var response = await _client.GetAsync(requestUri);
+            _logger.LogInformation("[ProductInventory] API Response: {StatusCode} {ReasonPhrase}", response.StatusCode, response.ReasonPhrase);
+            if (!response.IsSuccessStatusCode)
+            {
+                return $"Failed to get bikes data: {response.ReasonPhrase}";
+            }
+
+            var jsonContent = await response.Content.ReadAsStringAsync();
+            _logger.LogTrace("[ProductInventory] JSON Response: {JsonContent}", jsonContent);
+            using var jsonDocument = JsonDocument.Parse(jsonContent);
+            
+            // Find the bike with the matching name
+            foreach (var bike in jsonDocument.RootElement.EnumerateArray())
+            {
+                if (bike.TryGetProperty("name", out var nameProperty) && 
+                    nameProperty.GetString()?.Equals(bikeName, StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    if (bike.TryGetProperty("id", out var idProperty))
+                    {
+                        int id = idProperty.GetInt32();
+                        return $"{{\"id\": {id}, \"name\": \"{bikeName}\"}}";
+                    }
+                }
+            }
+            
+            return $"{{\"error\": \"No bike found with name '{bikeName}'\"}}";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "[ProductInventory] Exception occurred in GetBikeIdByName");
+            throw;
+        }
+    }
 }
