@@ -1,4 +1,8 @@
 using ContosoBikestore.MCPServer.Tools;
+using ContosoBikestore.MCPServer.Authentication;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +20,27 @@ builder.Services
     //.WithToolsFromAssembly()
     .WithTools<ProductInventoryTool>()
     .WithTools<OrderManagerTool>();
+
+// Configure API Key header name from configuration or use default
+string apiKeyHeaderName = builder.Configuration["ApiKey:HeaderName"] ?? "X-API-KEY";
+builder.Services.AddAuthentication(builder =>
+{
+    builder.DefaultAuthenticateScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+    builder.DefaultChallengeScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+}).AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(
+    ApiKeyAuthenticationOptions.DefaultScheme,
+    options => { options.ApiKeyHeaderName = apiKeyHeaderName; });
+
+// Add authorization to require authentication for all endpoints
+builder.Services.AddAuthorization(options =>
+{
+    // Create a specific policy for API key authentication
+    options.AddPolicy("ApiKeyPolicy", policy =>
+    {
+        policy.AuthenticationSchemes.Add(ApiKeyAuthenticationOptions.DefaultScheme);
+        policy.RequireAuthenticatedUser();
+    });
+});
 
 
 var app = builder.Build();
@@ -46,5 +71,11 @@ var app = builder.Build();
 //    await next();
 //});
 
-app.MapMcp();
+// Configure the HTTP request pipeline
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Map MCP endpoints with explicit API key authorization
+app.MapMcp()
+   .RequireAuthorization("ApiKeyPolicy"); // This ensures all MCP endpoints require API key authorization
 app.Run();
