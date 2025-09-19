@@ -14,7 +14,8 @@ builder.Services
     //.WithStdioServerTransport()
     .WithHttpTransport()
     //.WithToolsFromAssembly()
-    .WithTools<BikeStoreTools>();
+    .WithTools<ProductInventoryTool>()
+    .WithTools<OrderManagerTool>();
 
 
 var app = builder.Build();
