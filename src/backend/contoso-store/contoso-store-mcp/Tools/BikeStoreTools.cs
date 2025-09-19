@@ -1,117 +1,161 @@
 ﻿using System.ComponentModel;
+using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using ModelContextProtocol.Server;
 
+
 namespace ContosoBikestore.MCPServer.Tools;
+
 
 [McpServerToolType]
 public sealed class BikeStoreTools
 {
-    // Get the URL from environment variable or fall back to default value
-    private static readonly string BaseUrl = Environment.GetEnvironmentVariable("CONTOSO_STORE_URL") ?? 
-        "https://aiagentwks-contoso-store-mbo43n.azurewebsites.net";
+    private readonly HttpClient _client;
+    private readonly ILogger<BikeStoreTools> _logger;
+    private readonly string _baseUrl;
+
+    public BikeStoreTools(HttpClient client, ILogger<BikeStoreTools> logger)
+    {
+        _client = client;
+        _logger = logger;
+        _baseUrl = Environment.GetEnvironmentVariable("CONTOSO_STORE_URL") ??
+            "https://aiagentwks-contoso-store-mbo43n.azurewebsites.net";
+    }
 
     [McpServerTool, Description("Get all available bikes from the Contoso bike store.")]
-    public static async Task<string> GetAvailableBikes(HttpClient client)
+    public async Task<string> GetAvailableBikes()
     {
-        var requestUri = $"{BaseUrl}/api/bikes";
-
-        using var response = await client.GetAsync(requestUri);
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            return $"Failed to get bikes data: {response.ReasonPhrase}";
+            var requestUri = $"{_baseUrl}/api/bikes";
+            using var response = await _client.GetAsync(requestUri);
+            _logger.LogInformation("[BikeStoreTools] API Response: {StatusCode} {ReasonPhrase}", response.StatusCode, response.ReasonPhrase);
+            if (!response.IsSuccessStatusCode)
+            {
+                return $"Failed to get bikes data: {response.ReasonPhrase}";
+            }
+
+            var jsonContent = await response.Content.ReadAsStringAsync();
+            _logger.LogInformation("[BikeStoreTools] JSON Response: {JsonContent}", jsonContent);
+            using var jsonDocument = JsonDocument.Parse(jsonContent);
+
+            // Pretty format the JSON response
+            return JsonSerializer.Serialize(jsonDocument.RootElement, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
         }
-
-        var jsonContent = await response.Content.ReadAsStringAsync();
-        using var jsonDocument = JsonDocument.Parse(jsonContent);
-
-        // Pretty format the JSON response
-        return JsonSerializer.Serialize(jsonDocument.RootElement, new JsonSerializerOptions
+        catch (Exception ex)
         {
-            WriteIndented = true
-        });
+            _logger.LogError(ex, "[BikeStoreTools] Exception occurred in GetAvailableBikes");
+            throw;
+        }
     }
 
     [McpServerTool, Description("Get details for a specific bike by its ID.")]
-    public static async Task<string> GetBikeById(
-        HttpClient client,
+    public async Task<string> GetBikeById(
         [Description("The ID of the bike to retrieve")] int bikeId)
     {
-        var requestUri = $"{BaseUrl}/api/bikes/{bikeId}";
-
-        using var response = await client.GetAsync(requestUri);
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            return $"Failed to get bike with ID {bikeId}: {response.ReasonPhrase}";
+            var requestUri = $"{_baseUrl}/api/bikes/{bikeId}";
+            using var response = await _client.GetAsync(requestUri);
+            _logger.LogInformation("[BikeStoreTools] API Response: {StatusCode} {ReasonPhrase}", response.StatusCode, response.ReasonPhrase);
+            if (!response.IsSuccessStatusCode)
+            {
+                return $"Failed to get bike with ID {bikeId}: {response.ReasonPhrase}";
+            }
+
+            var jsonContent = await response.Content.ReadAsStringAsync();
+            _logger.LogInformation("[BikeStoreTools] JSON Response: {JsonContent}", jsonContent);
+            using var jsonDocument = JsonDocument.Parse(jsonContent);
+
+            // Pretty format the JSON response
+            return JsonSerializer.Serialize(jsonDocument.RootElement, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
         }
-
-        var jsonContent = await response.Content.ReadAsStringAsync();
-        using var jsonDocument = JsonDocument.Parse(jsonContent);
-
-        // Pretty format the JSON response
-        return JsonSerializer.Serialize(jsonDocument.RootElement, new JsonSerializerOptions
+        catch (Exception ex)
         {
-            WriteIndented = true
-        });
+            _logger.LogError(ex, "[BikeStoreTools] Exception occurred in GetBikeById");
+            throw;
+        }
     }
 
     [McpServerTool, Description("Create a new bike order.")]
-    public static async Task<string> CreateBikeOrder(
-        HttpClient client,
+    public async Task<string> CreateBikeOrder(
         [Description("The ID of the bike to order")] int bikeId,
         [Description("Customer's full name")] string customerName,
         [Description("Customer's email address")] string customerEmail,
         [Description("Shipping address for the order")] string shippingAddress)
     {
-        var orderRequest = new
+        try
         {
-            bikeId = bikeId,
-            customerName = customerName,
-            customerEmail = customerEmail,
-            shippingAddress = shippingAddress
-        };
+            var orderRequest = new
+            {
+                bikeId = bikeId,
+                customerName = customerName,
+                customerEmail = customerEmail,
+                shippingAddress = shippingAddress
+            };
 
-        var jsonContent = JsonSerializer.Serialize(orderRequest);
-        var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
+            var jsonContent = JsonSerializer.Serialize(orderRequest);
+            var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
 
-        var requestUri = $"{BaseUrl}/api/orders";
+            var requestUri = $"{_baseUrl}/api/orders";
 
-        using var response = await client.PostAsync(requestUri, content);
-        if (!response.IsSuccessStatusCode)
-        {
-            return $"Failed to create order: {response.ReasonPhrase}";
+            using var response = await _client.PostAsync(requestUri, content);
+            _logger.LogInformation("[BikeStoreTools] API Response: {StatusCode} {ReasonPhrase}", response.StatusCode, response.ReasonPhrase);
+            if (!response.IsSuccessStatusCode)
+            {
+                return $"Failed to create order: {response.ReasonPhrase}";
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            _logger.LogInformation("[BikeStoreTools] JSON Response: {JsonContent}", responseContent);
+            using var jsonDocument = JsonDocument.Parse(responseContent);
+
+            // Pretty format the JSON response
+            return JsonSerializer.Serialize(jsonDocument.RootElement, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
         }
-
-        var responseContent = await response.Content.ReadAsStringAsync();
-        using var jsonDocument = JsonDocument.Parse(responseContent);
-
-        // Pretty format the JSON response
-        return JsonSerializer.Serialize(jsonDocument.RootElement, new JsonSerializerOptions
+        catch (Exception ex)
         {
-            WriteIndented = true
-        });
+            _logger.LogError(ex, "[BikeStoreTools] Exception occurred in CreateBikeOrder");
+            throw;
+        }
     }
 
     [McpServerTool, Description("Get order details by order ID.")]
-    public static async Task<string> GetOrderById(
-        HttpClient client,
+    public async Task<string> GetOrderById(
         [Description("The order ID to retrieve")] string orderId)
     {
-        var requestUri = $"{BaseUrl}/api/orders/{orderId}";
-
-        using var response = await client.GetAsync(requestUri);
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            return $"Failed to get order with ID {orderId}: {response.ReasonPhrase}";
+            var requestUri = $"{_baseUrl}/api/orders/{orderId}";
+            using var response = await _client.GetAsync(requestUri);
+            _logger.LogInformation("[BikeStoreTools] API Response: {StatusCode} {ReasonPhrase}", response.StatusCode, response.ReasonPhrase);
+            if (!response.IsSuccessStatusCode)
+            {
+                return $"Failed to get order with ID {orderId}: {response.ReasonPhrase}";
+            }
+
+            var jsonContent = await response.Content.ReadAsStringAsync();
+            _logger.LogInformation("[BikeStoreTools] JSON Response: {JsonContent}", jsonContent);
+            using var jsonDocument = JsonDocument.Parse(jsonContent);
+
+            return JsonSerializer.Serialize(jsonDocument.RootElement, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
         }
-
-        var jsonContent = await response.Content.ReadAsStringAsync();
-        using var jsonDocument = JsonDocument.Parse(jsonContent);
-
-        // Pretty format the JSON response
-        return JsonSerializer.Serialize(jsonDocument.RootElement, new JsonSerializerOptions
+        catch (Exception ex)
         {
-            WriteIndented = true
-        });
+            _logger.LogError(ex, "[BikeStoreTools] Exception occurred in GetOrderById");
+            throw;
+        }
     }
 }
