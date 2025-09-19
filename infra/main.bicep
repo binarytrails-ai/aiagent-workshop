@@ -136,6 +136,7 @@ module app 'modules/app.bicep' = {
     foundryProjectEndpoint: aiProject.outputs.endpoint
     foundryProjectName: aiProject.outputs.name
     openAIDeploymentName: chatCompletionModel
+    appInsightsConnectionString: shared.outputs.appInsightsConnectionString
   }
 }
 

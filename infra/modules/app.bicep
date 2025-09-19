@@ -6,6 +6,7 @@ param tags object
 param foundryProjectEndpoint string
 param foundryProjectName string
 param openAIDeploymentName string
+param appInsightsConnectionString string = ''
 
 var frontendAppName = '${resourcePrefix}-web-${uniqueSuffixValue}'
 var backendAppName = '${resourcePrefix}-api-${uniqueSuffixValue}'
@@ -65,6 +66,10 @@ resource backendApp 'Microsoft.Web/sites@2022-03-01' = {
           name: 'CONTOSO_STORE_MCP_URL'
           value: 'https://${mcpServerApp.name}.azurewebsites.net/sse'
         }
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: appInsightsConnectionString
+        }
       ]
     }
   }
@@ -89,6 +94,10 @@ resource frontendApp 'Microsoft.Web/sites@2022-03-01' = {
           name: 'VITE_API_BASE_URL'
           value: 'https://${backendAppName}.azurewebsites.net'
         }
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: appInsightsConnectionString
+        }
       ]
     }
   }
@@ -106,6 +115,14 @@ resource contosoStoreApp 'Microsoft.Web/sites@2022-03-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: appInsightsConnectionString
+        }
+      ]
+    }
   }
 }
 
@@ -126,6 +143,10 @@ resource mcpServerApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'CONTOSO_STORE_URL'
           value: 'https://${contosoStoreAppName}.azurewebsites.net'
+        }
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: appInsightsConnectionString
         }
       ]
     }
