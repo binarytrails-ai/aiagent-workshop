@@ -241,72 +241,69 @@ public sealed class OrderManagerTool
         }
     }
 
-    [McpServerTool, Description("Generate a simulated delivery estimate for a bike order")]
-    public Task<string> GetDeliveryEstimate(
-        [Description("ID of the bike being ordered")] int bikeId,
-        [Description("Delivery city")] string city,
-        [Description("Whether to request express shipping")] bool expressShipping = false)
+    [McpServerTool, Description("Submit a new order for a bike")]
+    public Task<string> SubmitOrder(
+        [Description("The ID of the bike being ordered")] int bikeId,
+        [Description("The email address of the customer")] string emailAddress,
+        [Description("The shipping address for delivery")] string shippingAddress)
     {
         try
         {
-            // Calculate base shipping days
-            var baseShippingDays = _random.Next(3, 8);
-            
-            // Adjust for express shipping
-            var shippingDays = expressShipping ? 
-                Math.Max(1, baseShippingDays - _random.Next(1, 3)) : 
-                baseShippingDays;
-                
-            // Calculate estimated dates
-            var orderDate = DateTime.Now;
-            var processingDate = orderDate.AddDays(1);
-            var shippingDate = processingDate.AddDays(_random.Next(1, 3));
-            var deliveryDate = shippingDate.AddDays(shippingDays);
-            
-            // Calculate shipping cost
-            var baseShippingCost = _random.Next(15, 40);
-            var expressMultiplier = expressShipping ? 2.5m : 1.0m;
-            var shippingCost = Math.Round(baseShippingCost * expressMultiplier, 2);
-            
-            // Delivery partner and options
-            var deliveryPartner = _deliveryPartners[_random.Next(_deliveryPartners.Length)];
-            var deliveryOptions = new List<object>
+            // Validate inputs
+            if (bikeId <= 0)
             {
-                new {
-                    Option = "Standard Delivery",
-                    Cost = baseShippingCost,
-                    EstimatedDays = baseShippingDays,
-                    SelectedByDefault = !expressShipping
-                },
-                new {
-                    Option = "Express Delivery",
-                    Cost = Math.Round(baseShippingCost * 2.5m, 2),
-                    EstimatedDays = Math.Max(1, baseShippingDays - _random.Next(1, 3)),
-                    SelectedByDefault = expressShipping
+                return Task.FromResult("Please provide a valid bike ID.");
+            }
+            
+            if (string.IsNullOrWhiteSpace(emailAddress))
+            {
+                return Task.FromResult("Please provide a valid email address.");
+            }
+            
+            if (string.IsNullOrWhiteSpace(shippingAddress))
+            {
+                return Task.FromResult("Please provide a valid shipping address.");
+            }
+            
+            // Generate a unique order ID
+            string orderId = $"ORD-{Guid.NewGuid().ToString("N").Substring(0, 8)}";
+            
+            // Generate random order date (for simulation purposes)
+            var orderDate = DateTime.Now;
+            
+            // Calculate estimated delivery date (random between 3-10 days from now)
+            var estimatedDeliveryDate = orderDate.AddDays(_random.Next(3, 11));
+            
+            // Choose a delivery partner
+            var deliveryPartner = _deliveryPartners[_random.Next(0, _deliveryPartners.Length)];
+            
+            // Create the initial status update
+            var statusUpdates = new List<object>
+            {
+                new { 
+                    Date = orderDate, 
+                    Status = "Order Received", 
+                    Message = "Your order has been received and is being processed." 
                 }
             };
-
+            
+            // Create the order response
             var result = new
             {
+                OrderId = orderId,
                 BikeId = bikeId,
-                DeliveryCity = city,
-                ShippingType = expressShipping ? "Express" : "Standard",
-                Timeline = new
-                {
-                    OrderDate = orderDate,
-                    ProcessingDate = processingDate,
-                    ShippingDate = shippingDate,
-                    EstimatedDeliveryDate = deliveryDate
-                },
-                ShippingDetails = new
-                {
-                    DeliveryPartner = deliveryPartner,
-                    ShippingCost = $"${shippingCost}",
-                    EstimatedDeliveryDays = shippingDays
-                },
-                AvailableOptions = deliveryOptions
+                CustomerEmail = emailAddress,
+                ShippingAddress = shippingAddress,
+                CurrentStatus = "Processing",
+                OrderDate = orderDate,
+                EstimatedDeliveryDate = estimatedDeliveryDate,
+                DeliveryPartner = deliveryPartner,
+                StatusUpdates = statusUpdates,
+                Message = "Your order has been successfully submitted. Use the order ID to check the status."
             };
-
+            
+            _logger.LogInformation($"[OrderManagerTool] New order submitted - OrderId: {orderId}, BikeId: {bikeId}, Email: {emailAddress}");
+            
             return Task.FromResult(JsonSerializer.Serialize(result, new JsonSerializerOptions
             {
                 WriteIndented = true
@@ -314,7 +311,7 @@ public sealed class OrderManagerTool
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "[OrderSimulationTools] Exception occurred in GetDeliveryEstimate");
+            _logger.LogError(ex, "[OrderManagerTool] Exception occurred in SubmitOrder");
             throw;
         }
     }

@@ -284,16 +284,16 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
                   <p className={styles.suggestedPromptsLabel}>Try asking about:</p>
                   <div className={styles.promptButtons}>
                     <Button appearance="outline" className={styles.promptButton}
-                      onClick={() => chatContext.onSubmit("What bikes do you have available?")}>
+                      onClick={() => chatContext.onSubmit("Can you show me the available bikes in your store with their prices and features?")}>
                       Available bikes
                     </Button>
                     <Button appearance="outline" className={styles.promptButton}
-                      onClick={() => chatContext.onSubmit("What accessories do you recommend?")}>
-                      Bike accessories
+                      onClick={() => chatContext.onSubmit("Could you check the status of my order #ORD-2023-456? When can I expect delivery?")}>
+                      Order status
                     </Button>
                     <Button appearance="outline" className={styles.promptButton}
-                      onClick={() => chatContext.onSubmit("Help me find the right bike for me")}>
-                      Find the right bike
+                      onClick={() => chatContext.onSubmit("I want to place an order for the Mountain Explorer bike.?")}>
+                      Place order
                     </Button>
                   </div>
                 </div>
