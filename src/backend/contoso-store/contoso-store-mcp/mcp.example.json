@@ -1,0 +1,11 @@
+{
+    "servers": {
+        "ContosoBikestore": {
+            "type": "sse",
+            "url": "[YOUR_SSE_URL]",
+            "headers": {
+                "X-API-KEY": "[YOUR_API_KEY]"
+            }
+        }
+    }
+}

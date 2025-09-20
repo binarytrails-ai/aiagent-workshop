@@ -136,6 +136,7 @@ module app 'modules/app.bicep' = {
     foundryProjectEndpoint: aiProject.outputs.endpoint
     foundryProjectName: aiProject.outputs.name
     openAIDeploymentName: chatCompletionModel
+    appInsightsConnectionString: shared.outputs.appInsightsConnectionString
   }
 }
 
@@ -151,6 +152,7 @@ output AZURE_AI_PROJECT_ENDPOINT string = aiProject.outputs.endpoint
 output BACKEND_APP_URL string = app.outputs.BACKEND_APP_URL
 output FRONTEND_APP_URL string = app.outputs.FRONTEND_APP_URL
 output CONTOSO_STORE_APP_URL string = app.outputs.CONTOSO_STORE_APP_URL
+output CONTOSO_STORE_MCP_URL string = app.outputs.CONTOSO_STORE_MCP_URL
 
 output AZURE_OPENAI_DEPLOYMENT_NAME string = chatCompletionModel
 output TEXT_MODEL_NAME string = chatCompletionModel //TODO: to be removed when the notebook is updated

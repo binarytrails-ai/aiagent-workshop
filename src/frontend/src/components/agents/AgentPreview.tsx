@@ -139,9 +139,12 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
 
         // It's generally better to build the new list and set state once
         const historyMessages: IChatItem[] = [];
-        const reversedResponse = [...json_response].reverse();
+        // Sort messages by createdAt in ascending order (oldest to newest)
+        const sortedResponse = [...json_response].sort((a, b) => 
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
 
-        for (const entry of reversedResponse) {
+        for (const entry of sortedResponse) {
           if (entry.role === "user") {
             historyMessages.push({
               id: `${entry.created_at}-user`,
@@ -243,17 +246,15 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
     <div className={styles.container}>
       <div className={styles.topBar}>
         <div className={styles.leftSection}>
-          <AgentIcon iconName={agentDetails.name} alt={agentDetails.name} />
-          <span className={styles.agentName}>{agentDetails.displayName}</span>
+          <div className={styles.logoContainer}>
+            <span className={styles.bikeIcon}>🚲</span>
+          </div>
+          <div className={styles.titleContainer}>
+            {/* <span className={styles.companyName}>Contoso Bike Store</span> */}
+            <span className={styles.companyName}>{agentDetails.displayName || "AI Assistant"}</span>
+          </div>
         </div>
         <div className={styles.rightSection}>
-          <Button
-            appearance="subtle"
-            icon={<ChatRegular aria-hidden={true} />}
-            onClick={newThread}
-          >
-            New Chat
-          </Button>
         </div>
       </div>
       <div className={styles.content}>
@@ -262,16 +263,7 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
         ) : (
           <>
             {messageList.length === 0 && (
-              <div
-                className={styles.emptyChatContainer}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
-                  fontWeight: "bold",
-                }}
-              >
+              <div className={styles.emptyChatContainer}>
                 <AgentIcon
                   alt=""
                   iconClassName={styles.emptyStateAgentIcon}
@@ -279,28 +271,55 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
                 />
 
                 {agentDetails.displayName && (
-                  <div>{agentDetails.displayName}</div>
+                  <Title2 as="h2" className={styles.emptyStateTitle}>
+                    Welcome to {agentDetails.displayName}
+                  </Title2>
                 )}
 
-                <br />
-                <div>
-                  {agentDetails.description && (
-                    <Caption1 className={styles.emptyStateDescription}>
-                      {agentDetails.description}
-                    </Caption1>
-                  )}
+                <div className={styles.emptyStateDescription}>
+                  This agent provides customer support for Contoso Bike Store. It assists users with product inquiries, order status, and store information. The agent utilizes the <strong>MCP</strong> tools to effectively address and resolve customer questions.
                 </div>
-
-                <Title2 as="h2" className={styles.emptyStateTitle}>
-                  How can I help you today?
-                </Title2>
+                
+                <div className={styles.suggestedPrompts}>
+                  <p className={styles.suggestedPromptsLabel}>Try asking about:</p>
+                  <div className={styles.promptButtons}>
+                    <Button appearance="outline" className={styles.promptButton}
+                      onClick={() => chatContext.onSubmit("Can you show me the available bikes in your store with their prices and features?")}>
+                      Available bikes
+                    </Button>
+                    <Button appearance="outline" className={styles.promptButton}
+                      onClick={() => chatContext.onSubmit("Could you check the status of my order #ORD-2023-456? When can I expect delivery?")}>
+                      Order status
+                    </Button>
+                    <Button appearance="outline" className={styles.promptButton}
+                      onClick={() => chatContext.onSubmit("I want to place an order for the Contoso Mountain X1 bike")}>
+                      Place order
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className={styles.emptyStateFooter}>
+                  <Title2 as="h3">
+                    How can I assist with your biking needs today?
+                  </Title2>
+                </div>
               </div>
             )}
-            <AgentPreviewChatBot
-              agentName={agentDetails.name}
-              agentLogo={agentDetails.name}
-              chatContext={chatContext}
-            />
+            <div className={styles.chatControlWrapper}>
+              <AgentPreviewChatBot
+                agentName={agentDetails.name}
+                agentLogo={agentDetails.name}
+                chatContext={chatContext}
+              />
+              <Button
+                appearance="primary"
+                icon={<ChatRegular aria-hidden={true} />}
+                className={styles.newChatButton}
+                onClick={newThread}
+              >
+                New Chat
+              </Button>
+            </div>
           </>
         )}
       </div>

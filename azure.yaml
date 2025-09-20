@@ -27,12 +27,12 @@ hooks:
   postprovision:
     windows:
       shell: pwsh
-      run: ./scripts/write_env.ps1; ./scripts/setup_credential.ps1
+      run: ./scripts/write_env.ps1;
       continueOnError: true
       interactive: true
     posix:
       shell: sh
-      run: chmod u+r+x ./scripts/write_env.sh; chmod u+r+x ./scripts/setup_credential.sh; ./scripts/write_env.sh; ./scripts/setup_credential.sh
+      run: chmod u+r+x ./scripts/write_env.sh; chmod u+r+x ./scripts/write_env.sh;
       continueOnError: true
       interactive: true
 
@@ -44,7 +44,11 @@ services:
     language: csharp
     host: appservice
   contoso-store-api:
-    project: ./src/backend/contoso-store-api
+    project: ./src/backend/contoso-store/contoso-store-api
+    language: csharp
+    host: appservice
+  contoso-store-mcp:
+    project: ./src/backend/contoso-store/contoso-store-mcp
     language: csharp
     host: appservice
   web:

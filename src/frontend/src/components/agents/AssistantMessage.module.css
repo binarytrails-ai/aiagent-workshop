@@ -1,45 +1,99 @@
-/* ...existing code from frontend/src/components/agents/AssistantMessage.module.css... */
 .assistantMessageContainer {
   display: flex;
   flex-direction: column;
-  padding: 16px;
-  margin-bottom: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
   background-color: var(--colorNeutralBackground1);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 16px 16px 16px 4px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  max-width: 85%;
+  align-self: flex-start;
+  border: 1px solid var(--colorNeutralStroke1);
+  position: relative;
+  transition: all 0.25s ease;
 }
+
+.assistantMessageContainer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
+}
+
+.assistantMessageContainer::before {
+  content: '🚲';
+  position: absolute;
+  font-size: 14px;
+  top: -10px;
+  left: 12px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+}
+
 .messageHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--colorNeutralStroke1);
 }
+
 .avatarAndName {
   display: flex;
   align-items: center;
 }
+
 .avatar {
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
+  width: 38px;
+  height: 38px;
+  margin-right: 10px;
   border-radius: 50%;
   overflow: hidden;
-  background-color: var(--colorNeutralBackground3);
+  background-color: var(--colorBrandBackground2);
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2px solid var(--colorBrandBackground1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
+
 .avatarImage {
   max-width: 100%;
   max-height: 100%;
 }
+
 .botName {
-  font-weight: 600;
-  color: var(--colorNeutralForeground1);
+  font-weight: 700;
+  color: var(--colorBrandForeground1);
+  font-size: 1rem;
 }
 .actions {
   display: flex;
+  gap: 8px;
 }
+
 .messageContent {
+  margin-bottom: 16px;
+  line-height: 1.7;
+  font-size: 1rem;
+  color: var(--colorNeutralForeground1);
+}
+
+.messageContent p {
   margin-bottom: 12px;
+}
+
+.messageContent code {
+  background-color: var(--colorNeutralBackground3);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.messageContent pre {
+  background-color: var(--colorNeutralBackground3);
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border-left: 4px solid var(--colorBrandBackground1);
 }

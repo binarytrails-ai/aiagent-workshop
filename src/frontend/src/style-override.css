@@ -1,0 +1,29 @@
+/* Override for user message styling - more aggressive and specific selectors */
+.fui-UserMessageV2,
+.fui-UserMessageV2 > div,
+.fui-UserMessageV2 > div > div,
+div[role="feed"] > div > div,
+div[role="feed"] > div > div > div {
+  background: linear-gradient(135deg, #E9F4FB, #F5FBFF) !important;
+  border-radius: 16px 16px 4px 16px !important;
+}
+
+/* Target by class name partial match for more specificity */
+[class*="userMessage"],
+[class*="UserMessage"],
+[class*="userMessageContainer"],
+[class*="UserMessageContainer"] {
+  background: linear-gradient(135deg, #E9F4FB, #F5FBFF) !important;
+}
+
+/* Target all elements inside a feed that could be user messages */
+[role="feed"] > div:last-of-type,
+[role="feed"] > div:last-of-type > div,
+[role="feed"] > div:last-of-type > div > div {
+  background: linear-gradient(135deg, #E9F4FB, #F5FBFF) !important;
+}
+
+/* Target by direct visual appearance */
+[style*="color: rgb(42, 54, 66)"] {
+  background: linear-gradient(135deg, #E9F4FB, #F5FBFF) !important;
+}

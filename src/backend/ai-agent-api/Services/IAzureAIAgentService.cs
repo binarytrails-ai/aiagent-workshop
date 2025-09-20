@@ -1,5 +1,5 @@
-using Microsoft.SemanticKernel.Agents.AzureAI;
 using AIAgent.API.Models;
+using Azure.AI.Agents.Persistent;
 
 namespace AIAgent.API.Services
 {
@@ -10,6 +10,6 @@ namespace AIAgent.API.Services
     {
         Task<SendMessageResult> SendMessage(string userPrompt, string agentName, string agentId, string threadId);
         Task<List<ChatMessageHistory>> GetChatMessageHistoryAsync(string threadId);
-        Task<AzureAIAgentThread> GetOrCreateAgentThreadAsync(string? threadId);
+        Task<PersistentAgentThread> GetOrCreateAgentThreadAsync(string? threadId);
     }
 }

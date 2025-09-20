@@ -1,0 +1,786 @@
+[
+    {
+        "id": 4821,
+        "ProductName": "Contoso Roadster 200",
+        "Description": "Lightweight road bike for speed and endurance.",
+        "PriceUSD": 899.99,
+        "Tags": [
+            "road",
+            "lightweight",
+            "racing"
+        ],
+        "City": "Seattle",
+        "Branch": "Downtown",
+        "StockAvailability": 12
+    },
+    {
+        "id": 1937,
+        "ProductName": "Contoso Mountain X1",
+        "Description": "Durable mountain bike for tough terrains.",
+        "PriceUSD": 1199.99,
+        "Tags": [
+            "mountain",
+            "durable",
+            "off-road"
+        ],
+        "City": "Seattle",
+        "Branch": "Northgate",
+        "StockAvailability": 8
+    },
+    {
+        "id": 7052,
+        "ProductName": "Contoso City Cruiser",
+        "Description": "Comfortable bike for daily city commuting.",
+        "PriceUSD": 499.99,
+        "Tags": [
+            "city",
+            "commuter",
+            "comfort"
+        ],
+        "City": "Portland",
+        "Branch": "Central",
+        "StockAvailability": 15
+    },
+    {
+        "id": 8640,
+        "ProductName": "Contoso Kids Sprint",
+        "Description": "Safe and colorful bike designed for children.",
+        "PriceUSD": 299.99,
+        "Tags": [
+            "kids",
+            "safety",
+            "colorful"
+        ],
+        "City": "Portland",
+        "Branch": "Eastside",
+        "StockAvailability": 20
+    },
+    {
+        "id": 1204,
+        "ProductName": "Contoso E-Bike Pro",
+        "Description": "Electric bike with long battery life and fast charge.",
+        "PriceUSD": 1799.99,
+        "Tags": [
+            "electric",
+            "battery",
+            "commute"
+        ],
+        "City": "San Francisco",
+        "Branch": "Market Street",
+        "StockAvailability": 5
+    },
+    {
+        "id": 3378,
+        "ProductName": "Contoso Gravel 360",
+        "Description": "Versatile gravel bike for mixed surfaces.",
+        "PriceUSD": 1099.99,
+        "Tags": [
+            "gravel",
+            "versatile",
+            "hybrid"
+        ],
+        "City": "San Francisco",
+        "Branch": "Mission",
+        "StockAvailability": 10
+    },
+    {
+        "id": 5291,
+        "ProductName": "Contoso Folding Go",
+        "Description": "Compact folding bike for easy storage and travel.",
+        "PriceUSD": 649.99,
+        "Tags": [
+            "folding",
+            "compact",
+            "travel"
+        ],
+        "City": "Austin",
+        "Branch": "Downtown",
+        "StockAvailability": 7
+    },
+    {
+        "id": 6143,
+        "ProductName": "Contoso Tandem Duo",
+        "Description": "Tandem bike for two riders, fun for couples.",
+        "PriceUSD": 1499.99,
+        "Tags": [
+            "tandem",
+            "couples",
+            "fun"
+        ],
+        "City": "Austin",
+        "Branch": "Riverside",
+        "StockAvailability": 3
+    },
+    {
+        "id": 2785,
+        "ProductName": "Contoso Fat Tire FX",
+        "Description": "Fat tire bike for sand and snow adventures.",
+        "PriceUSD": 1299.99,
+        "Tags": [
+            "fat tire",
+            "adventure",
+            "snow"
+        ],
+        "City": "Denver",
+        "Branch": "Highlands",
+        "StockAvailability": 6
+    },
+    {
+        "id": 4920,
+        "ProductName": "Contoso Classic 50",
+        "Description": "Vintage-style bike with modern components.",
+        "PriceUSD": 799.99,
+        "Tags": [
+            "vintage",
+            "classic",
+            "stylish"
+        ],
+        "City": "Denver",
+        "Branch": "Cherry Creek",
+        "StockAvailability": 9
+    },
+    {
+        "id": 3506,
+        "ProductName": "Contoso Urban Sprint",
+        "Description": "Fast and agile bike for city streets.",
+        "PriceUSD": 699.99,
+        "Tags": [
+            "urban",
+            "fast",
+            "agile"
+        ],
+        "City": "Seattle",
+        "Branch": "Downtown",
+        "StockAvailability": 11
+    },
+    {
+        "id": 7812,
+        "ProductName": "Contoso Trail Blazer",
+        "Description": "Trail bike for off-road and forest paths.",
+        "PriceUSD": 1099.99,
+        "Tags": [
+            "trail",
+            "off-road",
+            "forest"
+        ],
+        "City": "Seattle",
+        "Branch": "Northgate",
+        "StockAvailability": 4
+    },
+    {
+        "id": 1469,
+        "ProductName": "Contoso Mini Rider",
+        "Description": "Small bike for young children.",
+        "PriceUSD": 199.99,
+        "Tags": [
+            "kids",
+            "small",
+            "beginner"
+        ],
+        "City": "Portland",
+        "Branch": "Eastside",
+        "StockAvailability": 18
+    },
+    {
+        "id": 8234,
+        "ProductName": "Contoso Hybrid 700",
+        "Description": "Hybrid bike for both city and light trails.",
+        "PriceUSD": 899.99,
+        "Tags": [
+            "hybrid",
+            "city",
+            "trail"
+        ],
+        "City": "Portland",
+        "Branch": "Central",
+        "StockAvailability": 13
+    },
+    {
+        "id": 2095,
+        "ProductName": "Contoso E-Mountain",
+        "Description": "Electric mountain bike for tough climbs.",
+        "PriceUSD": 2199.99,
+        "Tags": [
+            "electric",
+            "mountain",
+            "climb"
+        ],
+        "City": "San Francisco",
+        "Branch": "Mission",
+        "StockAvailability": 2
+    },
+    {
+        "id": 3671,
+        "ProductName": "Contoso Speedster",
+        "Description": "High-speed road bike for racing enthusiasts.",
+        "PriceUSD": 1299.99,
+        "Tags": [
+            "road",
+            "speed",
+            "racing"
+        ],
+        "City": "San Francisco",
+        "Branch": "Market Street",
+        "StockAvailability": 6
+    },
+    {
+        "id": 5558,
+        "ProductName": "Contoso Comfort Ride",
+        "Description": "Extra comfortable bike for leisure rides.",
+        "PriceUSD": 599.99,
+        "Tags": [
+            "comfort",
+            "leisure",
+            "easy"
+        ],
+        "City": "Austin",
+        "Branch": "Riverside",
+        "StockAvailability": 14
+    },
+    {
+        "id": 6342,
+        "ProductName": "Contoso Adventure Pro",
+        "Description": "Adventure bike for long-distance touring.",
+        "PriceUSD": 1499.99,
+        "Tags": [
+            "adventure",
+            "touring",
+            "durable"
+        ],
+        "City": "Austin",
+        "Branch": "Downtown",
+        "StockAvailability": 5
+    },
+    {
+        "id": 4017,
+        "ProductName": "Contoso Snow Rider",
+        "Description": "Bike designed for snowy conditions.",
+        "PriceUSD": 1399.99,
+        "Tags": [
+            "snow",
+            "winter",
+            "fat tire"
+        ],
+        "City": "Denver",
+        "Branch": "Highlands",
+        "StockAvailability": 3
+    },
+    {
+        "id": 7883,
+        "ProductName": "Contoso Retro Cruiser",
+        "Description": "Retro-style bike with modern features.",
+        "PriceUSD": 749.99,
+        "Tags": [
+            "retro",
+            "classic",
+            "stylish"
+        ],
+        "City": "Denver",
+        "Branch": "Cherry Creek",
+        "StockAvailability": 8
+    },
+    {
+        "id": 2156,
+        "ProductName": "Contoso City Sprint",
+        "Description": "Fast commuter bike for urban environments.",
+        "PriceUSD": 799.99,
+        "Tags": [
+            "city",
+            "commuter",
+            "fast"
+        ],
+        "City": "Seattle",
+        "Branch": "Downtown",
+        "StockAvailability": 10
+    },
+    {
+        "id": 9730,
+        "ProductName": "Contoso Trail Scout",
+        "Description": "Rugged bike for exploring trails.",
+        "PriceUSD": 1099.99,
+        "Tags": [
+            "trail",
+            "rugged",
+            "explorer"
+        ],
+        "City": "Seattle",
+        "Branch": "Northgate",
+        "StockAvailability": 7
+    },
+    {
+        "id": 6841,
+        "ProductName": "Contoso Junior Racer",
+        "Description": "Racing bike for young riders.",
+        "PriceUSD": 399.99,
+        "Tags": [
+            "kids",
+            "racing",
+            "junior"
+        ],
+        "City": "Portland",
+        "Branch": "Eastside",
+        "StockAvailability": 16
+    },
+    {
+        "id": 5402,
+        "ProductName": "Contoso Metro Glide",
+        "Description": "Sleek bike for city gliding.",
+        "PriceUSD": 699.99,
+        "Tags": [
+            "city",
+            "sleek",
+            "glide"
+        ],
+        "City": "Portland",
+        "Branch": "Central",
+        "StockAvailability": 12
+    },
+    {
+        "id": 8927,
+        "ProductName": "Contoso E-City",
+        "Description": "Electric bike for city commuting.",
+        "PriceUSD": 1599.99,
+        "Tags": [
+            "electric",
+            "city",
+            "commuter"
+        ],
+        "City": "San Francisco",
+        "Branch": "Market Street",
+        "StockAvailability": 4
+    },
+    {
+        "id": 3125,
+        "ProductName": "Contoso Gravel Pro",
+        "Description": "Professional gravel bike for all terrains.",
+        "PriceUSD": 1299.99,
+        "Tags": [
+            "gravel",
+            "pro",
+            "all-terrain"
+        ],
+        "City": "San Francisco",
+        "Branch": "Mission",
+        "StockAvailability": 7
+    },
+    {
+        "id": 4689,
+        "ProductName": "Contoso Folding Mini",
+        "Description": "Ultra-compact folding bike.",
+        "PriceUSD": 599.99,
+        "Tags": [
+            "folding",
+            "compact",
+            "mini"
+        ],
+        "City": "Austin",
+        "Branch": "Downtown",
+        "StockAvailability": 9
+    },
+    {
+        "id": 7510,
+        "ProductName": "Contoso Tandem Family",
+        "Description": "Tandem bike for family fun.",
+        "PriceUSD": 1599.99,
+        "Tags": [
+            "tandem",
+            "family",
+            "fun"
+        ],
+        "City": "Austin",
+        "Branch": "Riverside",
+        "StockAvailability": 2
+    },
+    {
+        "id": 1207,
+        "ProductName": "Contoso Fat Tire Pro",
+        "Description": "Pro fat tire bike for extreme conditions.",
+        "PriceUSD": 1499.99,
+        "Tags": [
+            "fat tire",
+            "pro",
+            "extreme"
+        ],
+        "City": "Denver",
+        "Branch": "Highlands",
+        "StockAvailability": 5
+    },
+    {
+        "id": 8394,
+        "ProductName": "Contoso Classic Retro",
+        "Description": "Classic retro bike with modern upgrades.",
+        "PriceUSD": 849.99,
+        "Tags": [
+            "classic",
+            "retro",
+            "upgrade"
+        ],
+        "City": "Denver",
+        "Branch": "Cherry Creek",
+        "StockAvailability": 6
+    },
+    {
+        "id": 2951,
+        "ProductName": "Contoso Urban Glide",
+        "Description": "Urban bike for smooth city rides.",
+        "PriceUSD": 749.99,
+        "Tags": [
+            "urban",
+            "smooth",
+            "city"
+        ],
+        "City": "Seattle",
+        "Branch": "Downtown",
+        "StockAvailability": 13
+    },
+    {
+        "id": 6078,
+        "ProductName": "Contoso Trail Runner",
+        "Description": "Trail bike for running wild paths.",
+        "PriceUSD": 1149.99,
+        "Tags": [
+            "trail",
+            "wild",
+            "runner"
+        ],
+        "City": "Seattle",
+        "Branch": "Northgate",
+        "StockAvailability": 8
+    },
+    {
+        "id": 4816,
+        "ProductName": "Contoso Mini Sprint",
+        "Description": "Sprint bike for kids.",
+        "PriceUSD": 249.99,
+        "Tags": [
+            "kids",
+            "sprint",
+            "mini"
+        ],
+        "City": "Portland",
+        "Branch": "Eastside",
+        "StockAvailability": 19
+    },
+    {
+        "id": 9632,
+        "ProductName": "Contoso Hybrid Pro",
+        "Description": "Professional hybrid bike for all uses.",
+        "PriceUSD": 999.99,
+        "Tags": [
+            "hybrid",
+            "pro",
+            "all-purpose"
+        ],
+        "City": "Portland",
+        "Branch": "Central",
+        "StockAvailability": 11
+    },
+    {
+        "id": 1345,
+        "ProductName": "Contoso E-Trail",
+        "Description": "Electric trail bike for off-road fun.",
+        "PriceUSD": 2299.99,
+        "Tags": [
+            "electric",
+            "trail",
+            "off-road"
+        ],
+        "City": "San Francisco",
+        "Branch": "Mission",
+        "StockAvailability": 3
+    },
+    {
+        "id": 2589,
+        "ProductName": "Contoso Speed Glide",
+        "Description": "Speed bike for fast city commutes.",
+        "PriceUSD": 1099.99,
+        "Tags": [
+            "speed",
+            "city",
+            "commute"
+        ],
+        "City": "San Francisco",
+        "Branch": "Market Street",
+        "StockAvailability": 5
+    },
+    {
+        "id": 7904,
+        "ProductName": "Contoso Comfort Pro",
+        "Description": "Pro comfort bike for leisure and touring.",
+        "PriceUSD": 699.99,
+        "Tags": [
+            "comfort",
+            "pro",
+            "leisure"
+        ],
+        "City": "Austin",
+        "Branch": "Riverside",
+        "StockAvailability": 12
+    },
+    {
+        "id": 3267,
+        "ProductName": "Contoso Adventure Max",
+        "Description": "Max adventure bike for long journeys.",
+        "PriceUSD": 1599.99,
+        "Tags": [
+            "adventure",
+            "max",
+            "journey"
+        ],
+        "City": "Austin",
+        "Branch": "Downtown",
+        "StockAvailability": 6
+    },
+    {
+        "id": 4198,
+        "ProductName": "Contoso Snow Pro",
+        "Description": "Pro snow bike for winter sports.",
+        "PriceUSD": 1499.99,
+        "Tags": [
+            "snow",
+            "pro",
+            "winter"
+        ],
+        "City": "Denver",
+        "Branch": "Highlands",
+        "StockAvailability": 4
+    },
+    {
+        "id": 5731,
+        "ProductName": "Contoso Retro Glide",
+        "Description": "Retro bike for stylish city rides.",
+        "PriceUSD": 799.99,
+        "Tags": [
+            "retro",
+            "stylish",
+            "city"
+        ],
+        "City": "Denver",
+        "Branch": "Cherry Creek",
+        "StockAvailability": 7
+    },
+    {
+        "id": 6820,
+        "ProductName": "Contoso City Pro",
+        "Description": "Pro commuter bike for busy cities.",
+        "PriceUSD": 899.99,
+        "Tags": [
+            "city",
+            "pro",
+            "commuter"
+        ],
+        "City": "Seattle",
+        "Branch": "Downtown",
+        "StockAvailability": 9
+    },
+    {
+        "id": 1573,
+        "ProductName": "Contoso Trail Max",
+        "Description": "Max trail bike for extreme paths.",
+        "PriceUSD": 1199.99,
+        "Tags": [
+            "trail",
+            "max",
+            "extreme"
+        ],
+        "City": "Seattle",
+        "Branch": "Northgate",
+        "StockAvailability": 5
+    },
+    {
+        "id": 9042,
+        "ProductName": "Contoso Junior Pro",
+        "Description": "Pro bike for young riders.",
+        "PriceUSD": 449.99,
+        "Tags": [
+            "kids",
+            "pro",
+            "junior"
+        ],
+        "City": "Portland",
+        "Branch": "Eastside",
+        "StockAvailability": 17
+    },
+    {
+        "id": 2356,
+        "ProductName": "Contoso Metro Pro",
+        "Description": "Pro metro bike for city professionals.",
+        "PriceUSD": 799.99,
+        "Tags": [
+            "metro",
+            "pro",
+            "city"
+        ],
+        "City": "Portland",
+        "Branch": "Central",
+        "StockAvailability": 10
+    },
+    {
+        "id": 7819,
+        "ProductName": "Contoso E-Urban",
+        "Description": "Electric urban bike for fast commutes.",
+        "PriceUSD": 1699.99,
+        "Tags": [
+            "electric",
+            "urban",
+            "fast"
+        ],
+        "City": "San Francisco",
+        "Branch": "Market Street",
+        "StockAvailability": 6
+    },
+    {
+        "id": 4682,
+        "ProductName": "Contoso Gravel Max",
+        "Description": "Max gravel bike for all surfaces.",
+        "PriceUSD": 1399.99,
+        "Tags": [
+            "gravel",
+            "max",
+            "all-surface"
+        ],
+        "City": "San Francisco",
+        "Branch": "Mission",
+        "StockAvailability": 8
+    },
+    {
+        "id": 5917,
+        "ProductName": "Contoso Folding Pro",
+        "Description": "Pro folding bike for easy transport.",
+        "PriceUSD": 699.99,
+        "Tags": [
+            "folding",
+            "pro",
+            "transport"
+        ],
+        "City": "Austin",
+        "Branch": "Downtown",
+        "StockAvailability": 7
+    },
+    {
+        "id": 3204,
+        "ProductName": "Contoso Tandem Max",
+        "Description": "Max tandem bike for group rides.",
+        "PriceUSD": 1699.99,
+        "Tags": [
+            "tandem",
+            "max",
+            "group"
+        ],
+        "City": "Austin",
+        "Branch": "Riverside",
+        "StockAvailability": 3
+    },
+    {
+        "id": 8571,
+        "ProductName": "Contoso Fat Tire Max",
+        "Description": "Max fat tire bike for adventure seekers.",
+        "PriceUSD": 1599.99,
+        "Tags": [
+            "fat tire",
+            "max",
+            "adventure"
+        ],
+        "City": "Denver",
+        "Branch": "Highlands",
+        "StockAvailability": 5
+    },
+    {
+        "id": 1093,
+        "ProductName": "Contoso Classic Max",
+        "Description": "Max classic bike with premium features.",
+        "PriceUSD": 899.99,
+        "Tags": [
+            "classic",
+            "max",
+            "premium"
+        ],
+        "City": "Denver",
+        "Branch": "Cherry Creek",
+        "StockAvailability": 8
+    },
+    {
+        "id": 6248,
+        "ProductName": "Contoso Urban Max",
+        "Description": "Max urban bike for city explorers.",
+        "PriceUSD": 849.99,
+        "Tags": [
+            "urban",
+            "max",
+            "explorer"
+        ],
+        "City": "Seattle",
+        "Branch": "Downtown",
+        "StockAvailability": 12
+    },
+    {
+        "id": 4735,
+        "ProductName": "Contoso Trail Pro",
+        "Description": "Pro trail bike for serious riders.",
+        "PriceUSD": 1249.99,
+        "Tags": [
+            "trail",
+            "pro",
+            "serious"
+        ],
+        "City": "Seattle",
+        "Branch": "Northgate",
+        "StockAvailability": 6
+    },
+    {
+        "id": 3821,
+        "ProductName": "Contoso Mini Pro",
+        "Description": "Pro mini bike for kids.",
+        "PriceUSD": 299.99,
+        "Tags": [
+            "kids",
+            "mini",
+            "pro"
+        ],
+        "City": "Portland",
+        "Branch": "Eastside",
+        "StockAvailability": 15
+    },
+    {
+        "id": 5407,
+        "ProductName": "Contoso Hybrid Max",
+        "Description": "Max hybrid bike for all-around use.",
+        "PriceUSD": 1099.99,
+        "Tags": [
+            "hybrid",
+            "max",
+            "all-around"
+        ],
+        "City": "Portland",
+        "Branch": "Central",
+        "StockAvailability": 13
+    },
+    {
+        "id": 2198,
+        "ProductName": "Contoso E-Adventure",
+        "Description": "Electric adventure bike for long trips.",
+        "PriceUSD": 2399.99,
+        "Tags": [
+            "electric",
+            "adventure",
+            "long"
+        ],
+        "City": "San Francisco",
+        "Branch": "Mission",
+        "StockAvailability": 2
+    },
+    {
+        "id": 7603,
+        "ProductName": "Contoso Speed Max",
+        "Description": "Max speed bike for racing.",
+        "PriceUSD": 1399.99,
+        "Tags": [
+            "speed",
+            "max",
+            "racing"
+        ],
+        "City": "San Francisco",
+        "Branch": "Market Street",
+        "StockAvailability": 4
+    }
+]

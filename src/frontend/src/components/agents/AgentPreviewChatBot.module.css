@@ -25,9 +25,7 @@
 .hasMessages {
   height: 100%;
 }
-.emptyChatContainer {
-  height: auto;
-}
+/* Removed empty chat container style */
 .userMessage {
   padding-top: 0;
   padding-bottom: 0;
@@ -37,4 +35,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px); /* Adjust based on your header and input heights */
+  padding-right: 8px; /* Add some padding for the scrollbar */
 }
